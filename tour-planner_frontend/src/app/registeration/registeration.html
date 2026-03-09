@@ -1,4 +1,3 @@
-
 <div class="register-wrapper">
   <div class="register-container">
 
@@ -6,7 +5,7 @@
       <div class="register-badge">Adventure Starts Here</div>
       <h1 class="register-title">Tour Planner</h1>
       <p class="register-subtitle">
-        Plan your perfect journey with our comprehensive tour planning platform. Create, customize, and manage your adventures all in one place.
+        Plan your perfect journey with our comprehensive tour planning platform.
       </p>
 
       <div class="register-stats">
@@ -21,39 +20,37 @@
       </div>
     </div>
 
-
-
-
     <div class="register-right">
       <div class="register-card">
           <h2 class="register-card-title">Create Account</h2>
-        <p class="register-card-text">
-          Join Tour Planner and start planning your next adventure.
-        </p>
 
-        <form class="register-form">
+        <form class="register-form" (ngSubmit)="onRegister()">
           <div class="form-group">
             <label for="username">Username</label>
-            <input id="username" type="text" placeholder="e.g. trail_blazer42" />
+            <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter your username">
           </div>
 
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="email" placeholder="you@example.com" />
+            <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Enter your email">
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" placeholder="••••••••" />
+            <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="*******">
           </div>
 
           <div class="form-group">
-            <label for="confirm-password">Confirm Password</label>
-            <input id="confirm-password" type="password" placeholder="••••••••" />
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="*******">
           </div>
 
           <button type="submit" class="btn-register">Create Account</button>
         </form>
+
+        <div *ngIf="message" class="message-box" [class.error]="message.includes('already') || message.includes('do not')">
+          {{ message }}
+        </div>
 
         <p class="login-link">
           Already have an account? <a routerLink="/login">Sign In</a>

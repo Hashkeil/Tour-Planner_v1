@@ -1,8 +1,14 @@
 import { Routes } from '@angular/router';
-import { Registeration } from './registeration/registeration';
-import { Login } from './login/login';
+import { RegisterComponent } from './registeration/registeration';
+import { LoginComponent } from './login/login';
 
 export const routes: Routes = [
-  { path: '', component: Registeration },   // default page
-  { path: 'login', component: Login }
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./dashboard/dashboard').then(m => m.DashboardComponent)
+  },
+  { path: '', redirectTo: 'register', pathMatch: 'full' }
 ];

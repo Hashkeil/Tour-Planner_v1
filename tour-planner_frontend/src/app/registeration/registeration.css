@@ -14,7 +14,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 2.5rem;
-  background: linear-gradient(135deg, #e8f6f3 0%, #f0fbf9 100%);
+  background: linear-gradient(135deg, #BBDEFB 0%, #E3F2FD 50%, #F5F5F5 100%);
 }
 
 .register-container {
@@ -32,42 +32,47 @@ body {
 
 .register-badge {
   display: inline-block;
-  background: white;
-  color: #19c2a0;
-  border: 1px solid #dff1ec;
+  background: #FFFFFF;
+  color: #1565C0;
+  border: 2px solid #81C784;
   border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  padding: 0.6rem 1.3rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .register-badge:hover {
-  background: #f5fdfb;
-  transform: translateY(-2px);
+  background: #E3F2FD;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.2);
 }
 
 .register-title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.1;
   margin: 0 0 1.2rem 0;
-  color: #1a3a3f;
-  letter-spacing: -0.5px;
+  color: #1565C0;
+  letter-spacing: -1px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .register-subtitle {
-  font-size: 1.05rem;
-  color: #5f6f6d;
-  line-height: 1.8;
+  font-size: 1rem;
+  color: #1565C0;
+  line-height: 1.9;
   max-width: 520px;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-weight: 400;
+  opacity: 0.85;
 }
 
 .register-stats {
+  color: #1565C0;
+
   display: flex;
   gap: 2rem;
   margin-top: 2rem;
@@ -81,7 +86,7 @@ body {
 
 .stat-box p {
   margin: 0.35rem 0 0 0;
-  color: #5f6f6d;
+  color: #1565C0;
   font-size: 0.95rem;
 }
 
@@ -99,56 +104,52 @@ body {
 }
 
 .register-card-title {
-  font-size: 1.85rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin: 0 0 0.6rem 0;
-  color: #1a3a3f;
-  letter-spacing: -0.3px;
+  margin: 0 0 0.8rem 0;
+  color: #1565C0;
+  letter-spacing: -0.5px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.register-card-text {
-  font-size: 0.95rem;
-  color: #5f6f6d;
-  margin-bottom: 2rem;
-  line-height: 1.7;
-  font-weight: 400;
-}
 
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #1a3a3f;
-  letter-spacing: 0.2px;
+  margin-bottom: 0.6rem;
+  color: #1565C0;
+  letter-spacing: 0.3px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-group input {
-  padding: 1rem 1.1rem;
-  border: 1.5px solid #dff1ec;
+  padding: 1rem 1.2rem;
+  border: 2px solid #BBDEFB;
   border-radius: 12px;
-  background: #f9fffd;
+  background: #FFFFFF;
   font-size: 0.95rem;
   outline: none;
-  transition: all 0.3s ease;
-  font-family: inherit;
-  color: #2a3f42;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Segoe UI', 'Poppins', sans-serif;
+  color: #1565C0;
   line-height: 1.5;
 }
 
 .form-group input::placeholder {
-  color: #a0b5b2;
+  color: #BBDEFB;
+  opacity: 0.7;
 }
 
 .form-group input:focus {
-  border-color: #19c2a0;
-  box-shadow: 0 0 0 4px rgba(25, 194, 160, 0.12);
-  background: #ffffff;
+  border-color: #81C784;
+  box-shadow: 0 0 0 5px rgba(129, 199, 132, 0.15);
+  background: #FFFFFF;
   transform: translateY(-2px);
 }
 
@@ -156,64 +157,68 @@ body {
   width: 100%;
   border: none;
   border-radius: 12px;
-  background: #19c2a0;
-  color: white;
-  padding: 1.1rem;
-  font-size: 0.95rem;
+  background: linear-gradient(135deg, #81C784 0%, #66BB6A 100%);
+  color: #FFFFFF;
+  padding: 1.2rem;
+  font-size: 0.97rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 0.8rem;
-  letter-spacing: 0.3px;
-  box-shadow: 0 4px 12px rgba(25, 194, 160, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(129, 199, 132, 0.35);
+  font-family: 'Poppins', sans-serif;
 }
 
 .btn-register:hover {
-  background: #12ab8c;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(25, 194, 160, 0.35);
+  background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(129, 199, 132, 0.45);
 }
 
 .btn-register:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+}
+
+.message-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #BBDEFB;
+  color: #1565C0;
+  border-left: 4px solid #81C784;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.message-box.error {
+  background: #FFCCCC;
+  border-left-color: #E57373;
+  color: #C62828;
 }
 
 .login-link {
   text-align: center;
-  margin-top: 1.5rem;
-  color: #5f6f6d;
-  font-size: 0.92rem;
-  line-height: 1.6;
+  margin-top: 2rem;
+  color: #1565C0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  font-weight: 500;
 }
 
 .login-link a {
-  color: #19c2a0;
+  color: #81C784;
   text-decoration: none;
   font-weight: 700;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
 }
 
 .login-link a:hover {
-  color: #12ab8c;
-  text-decoration: underline;
-}
-
-.register-stats {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.stat-box h3 {
-  font-size: 1.8rem;
-  margin: 0;
-}
-
-.stat-box p {
-  margin: 0.35rem 0 0 0;
-  color: #5f6f6d;
-  font-size: 0.95rem;
+  color: #66BB6A;
+  border-bottom-color: #81C784;
 }
 
 @media (max-width: 900px) {
@@ -223,11 +228,11 @@ body {
   }
 
   .register-title {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
 
   .register-card {
-    padding: 2rem;
+    padding: 2.2rem;
   }
 }
 
@@ -241,7 +246,7 @@ body {
   }
 
   .register-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .register-subtitle {
@@ -249,17 +254,17 @@ body {
   }
 
   .register-card {
-    padding: 1.5rem;
+    padding: 1.8rem;
     border-radius: 16px;
   }
 
   .register-card-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .btn-register {
-    padding: 0.95rem;
-    font-size: 0.9rem;
+    padding: 1rem;
+    font-size: 0.92rem;
   }
 
   .register-stats {
@@ -267,6 +272,19 @@ body {
   }
 
   .stat-box h3 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+  }
+
+  .stat-box p {
+    font-size: 0.9rem;
+  }
+
+  .form-group input {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
   }
 }
