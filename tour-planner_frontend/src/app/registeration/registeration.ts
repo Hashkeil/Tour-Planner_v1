@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-registeration',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink],
   templateUrl: './registeration.html',
-  styleUrl: './registeration.css',
+  styleUrl: './registeration.css'
 })
-export class Registeration {
-
-}
+export class Registeration {}

@@ -1,0 +1,272 @@
+body {
+  margin: 0;
+  font-family: 'Raleway', 'Open Sans', sans-serif;
+  background: #eef9f7;
+  color: #2a3f42;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #e8f6f3 0%, #f0fbf9 100%);
+}
+
+.register-container {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.register-left {
+  padding: 1rem;
+}
+
+.register-badge {
+  display: inline-block;
+  background: white;
+  color: #19c2a0;
+  border: 1px solid #dff1ec;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.register-badge:hover {
+  background: #f5fdfb;
+  transform: translateY(-2px);
+}
+
+.register-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.2rem 0;
+  color: #1a3a3f;
+  letter-spacing: -0.5px;
+}
+
+.register-subtitle {
+  font-size: 1.05rem;
+  color: #5f6f6d;
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.register-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-box h3 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.stat-box p {
+  margin: 0.35rem 0 0 0;
+  color: #5f6f6d;
+  font-size: 0.95rem;
+}
+
+.register-card {
+  background: #ffffff;
+  border: 1px solid #dff1ec;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(25, 194, 160, 0.08);
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  box-shadow: 0 12px 32px rgba(25, 194, 160, 0.12);
+}
+
+.register-card-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin: 0 0 0.6rem 0;
+  color: #1a3a3f;
+  letter-spacing: -0.3px;
+}
+
+.register-card-text {
+  font-size: 0.95rem;
+  color: #5f6f6d;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.4rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a3a3f;
+  letter-spacing: 0.2px;
+}
+
+.form-group input {
+  padding: 1rem 1.1rem;
+  border: 1.5px solid #dff1ec;
+  border-radius: 12px;
+  background: #f9fffd;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  color: #2a3f42;
+  line-height: 1.5;
+}
+
+.form-group input::placeholder {
+  color: #a0b5b2;
+}
+
+.form-group input:focus {
+  border-color: #19c2a0;
+  box-shadow: 0 0 0 4px rgba(25, 194, 160, 0.12);
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-register {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #19c2a0;
+  color: white;
+  padding: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.8rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(25, 194, 160, 0.25);
+}
+
+.btn-register:hover {
+  background: #12ab8c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(25, 194, 160, 0.35);
+}
+
+.btn-register:active {
+  transform: translateY(0);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #5f6f6d;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.login-link a {
+  color: #19c2a0;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+  color: #12ab8c;
+  text-decoration: underline;
+}
+
+.register-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-box h3 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.stat-box p {
+  margin: 0.35rem 0 0 0;
+  color: #5f6f6d;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .register-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .register-title {
+    font-size: 2.2rem;
+  }
+
+  .register-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .register-wrapper {
+    padding: 1.5rem;
+  }
+
+  .register-container {
+    gap: 1.5rem;
+  }
+
+  .register-title {
+    font-size: 1.8rem;
+  }
+
+  .register-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .register-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .register-card-title {
+    font-size: 1.5rem;
+  }
+
+  .btn-register {
+    padding: 0.95rem;
+    font-size: 0.9rem;
+  }
+
+  .register-stats {
+    gap: 1.5rem;
+  }
+
+  .stat-box h3 {
+    font-size: 1.4rem;
+  }
+}
