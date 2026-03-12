@@ -193,8 +193,8 @@ body {
 }
 
 .message-box.error {
-  background: #FFCCCC;
-  border-left-color: #E57373;
+  background: #FFEBEE;
+  border-left-color: #E53935;
   color: #C62828;
 }
 

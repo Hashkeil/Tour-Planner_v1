@@ -175,19 +175,25 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.btn-login:hover {
+.btn-login:hover:not(:disabled) {
   background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(129, 199, 132, 0.45);
 }
 
-.btn-login:active {
+.btn-login:active:not(:disabled) {
   transform: translateY(-1px);
+}
+
+.btn-login:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #A1D4A1 0%, #8BC98B 100%);
 }
 
 .message-box {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 12px;
   background: #BBDEFB;
   color: #1565C0;
@@ -195,12 +201,37 @@
   font-weight: 500;
   font-size: 0.95rem;
   text-align: center;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.15);
 }
 
 .message-box.error {
-  background: #FFCCCC;
+  background: #FFCDD2;
   border-left-color: #E57373;
   color: #C62828;
+  animation: slideInError 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .register-link {
