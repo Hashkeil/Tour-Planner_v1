@@ -22,9 +22,9 @@
 
     <div class="register-right">
       <div class="register-card">
-          <h2 class="register-card-title">Create Account</h2>
+        <h2 class="register-card-title">Create Account</h2>
 
-        <form class="register-form" (ngSubmit)="onRegister()">
+        <form class="register-form" (ngSubmit)="onRegister()" novalidate>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter your username">
@@ -48,7 +48,7 @@
           <button type="submit" class="btn-register">Create Account</button>
         </form>
 
-        <div *ngIf="message" class="message-box" [class.error]="message.includes('already') || message.includes('do not')">
+        <div *ngIf="message" class="message-box error">
           {{ message }}
         </div>
 
