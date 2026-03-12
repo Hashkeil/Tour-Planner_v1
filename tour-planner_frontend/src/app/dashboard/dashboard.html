@@ -1,1 +1,116 @@
-<p>dashboard works!</p>
+<div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="profile-section">
+            <div class="profile-circle">
+                <span class="initial">P</span>
+            </div>
+            <p class="profile-name">Profile</p>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">My Tours</a>
+            <a href="#" class="nav-item">Tour Detail</a>
+            <a href="#" class="nav-item">Settings</a>
+            <a href="#" class="nav-item">Import</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1 class="page-title">Dashboard</h1>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Full-text search tours & logs">
+                </div>
+                <button class="btn-primary" (click)="addTour()">+ New Tour</button>
+            </div>
+        </header>
+
+        <!-- Metrics Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Tours</div>
+                <div class="metric-value">{{totalTours()}}</div>
+                <div class="metric-subtext">More Insights</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Total Distance</div>
+                <div class="metric-value">{{totalDistnce()}} <span class="unit">km</span></div>
+                <div class="metric-subtext">More Insights</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Total Time</div>
+                <div class="metric-value">{{totalDuration()}} <span class="unit">h</span></div>
+                <div class="metric-subtext">More Insights</div>
+            </div>
+        </div>
+
+        <!-- Main Content Area: Left & Right Columns -->
+        <div class="content-grid">
+
+            <!-- Left Column: Recent Tours -->
+            <div class="recent-tours">
+                <div class="section-header">
+                    <h3 class="section-title">Recent Tours</h3>
+                    <a href="#" class="view-all-link">View all</a>
+                </div>
+
+                <div class="tours-list">
+                    <!-- Tour Items -->
+                     @for (tour of recentTours(); track tour.id) {
+                    <div class="tour-item">
+                        @if(tour.isSetImage()){
+                        <div class="tour-image">
+                            <img [src]="tour.image" alt="Tour Image">
+                        </div>
+                        }@else{}
+                        <div class="tour-info">
+                            <h4 class="tour-name">{{tour.name}}</h4>
+                            <p class="tour-details">A - B • {{tour.distance}} km • {{tour.duration}} days</p>
+                        </div>
+                    </div>
+                }
+                </div>
+            </div>
+
+            <!-- Right Column: Recent Activity -->
+            <div class="recent-activity">
+                <h3 class="section-title">Recent Activity</h3>
+                <div class="activity-card">
+                    <ul class="activity-list">
+                        <li>
+                            <div class="activity-dot"></div>
+                            <div class="activity-text">
+                                <p><strong>You</strong> created a new tour "Alpine Mountain Trail"</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-dot"></div>
+                            <div class="activity-text">
+                                <p><strong>System</strong> imported 3 new logs</p>
+                                <span class="activity-time">Yesterday</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-dot"></div>
+                            <div class="activity-text">
+                                <p><strong>You</strong> updated settings</p>
+                                <span class="activity-time">3 days ago</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
