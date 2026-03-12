@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
+
 @Component({
+
   selector: 'app-register',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
@@ -12,6 +14,7 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './registeration.css'
 })
 export class RegisterComponent {
+
   username = '';
   email = '';
   password = '';
@@ -23,19 +26,29 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  onRegister() {
+
+
+  onRegister(): void {
+
+    // Prüfen ob alle Felder ausgefüllt sind
+    if (!this.username || !this.email || !this.password || !this.confirmPassword) {
+      this.message = 'Please fill in all fields.';
+      return;
+    }
+
     if (this.password !== this.confirmPassword) {
       this.message = 'Passwords do not match.';
       return;
     }
+
     const success = this.authService.register({
       username: this.username,
       email: this.email,
       password: this.password
     });
 
+
     if (success) {
-      this.message = 'Registration successful!';
       this.router.navigate(['/login']);
     } else {
       this.message = 'User already exists.';
