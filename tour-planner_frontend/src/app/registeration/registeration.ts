@@ -22,6 +22,7 @@ export class RegisterComponent {
   message = '';
 
   constructor(
+    //bessere aus auf inject-Funktion außerhalb von Konstruktor
     private authService: AuthService,
     private router: Router
   ) {}
