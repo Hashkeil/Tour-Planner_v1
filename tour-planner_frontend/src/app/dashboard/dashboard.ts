@@ -1,32 +1,83 @@
 import { Component, computed, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Tour } from '../model/tour.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
-  standalone: true
+  styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
   tours = signal<Tour[]>([
-    new Tour(1, 'Alpine Mountain Trail', 350, 7, 'alpine.jpg'),
-    new Tour(2, 'Danube Cycle Path', 320, 5, 'City.jpg'),
-    new Tour(3, 'City Highlights Tour', 25, 4, ''),
+    {
+      id: 1,
+      name: 'Alpine Mountain Trail',
+      description: 'Beautiful alpine hiking route',
+      fromLocation: 'Innsbruck',
+      toLocation: 'Zillertal',
+      transportType: 'hike',
+      distance: 350,
+      estimatedTime: 7,
+      image: 'alpine.jpg',
+      popularity: 0,
+      childFriendliness: 0,
+      averageRating: 0
+    },
+    {
+      id: 2,
+      name: 'Danube Cycle Path',
+      description: 'Scenic cycling tour along the Danube',
+      fromLocation: 'Vienna',
+      toLocation: 'Passau',
+      transportType: 'bike',
+      distance: 320,
+      estimatedTime: 5,
+      image: 'city.jpg',
+      popularity: 0,
+      childFriendliness: 0,
+      averageRating: 0
+    },
+    {
+      id: 3,
+      name: 'City Highlights Tour',
+      description: 'Explore the most important city spots',
+      fromLocation: 'City Center',
+      toLocation: 'Old Town',
+      transportType: 'run',
+      distance: 25,
+      estimatedTime: 4,
+      image: '',
+      popularity: 0,
+      childFriendliness: 0,
+      averageRating: 0
+    }
   ]);
 
   recentTours = computed(() => this.tours().slice(0, 3));
-
-  totalDistnce = computed(() => this.tours().reduce((acc, tour) => acc + tour.distance, 0));
-  totalDuration = computed(() => this.tours().reduce((acc, tour) => acc + tour.duration, 0));
+  totalDistance = computed(() =>
+    this.tours().reduce((acc, tour) => acc + (tour.distance ?? 0), 0)
+  );
+  totalDuration = computed(() =>
+    this.tours().reduce((acc, tour) => acc + (tour.estimatedTime ?? 0), 0)
+  );
   totalTours = computed(() => this.tours().length);
 
-  addTour() {
-    this.tours.update(current => [new Tour(current.length + 1, 'Added Tour', 100, 2, ''), ...current]);
+  addTour(): void {
+    const newTour: Tour = {
+      averageRating: 0, childFriendliness: 0, popularity: 0,
+      id: this.tours().length + 1,
+      name: 'Added Tour',
+      description: 'Newly created tour',
+      fromLocation: 'Start',
+      toLocation: 'Destination',
+      transportType: 'hike',
+      distance: 100,
+      estimatedTime: 2,
+      image: ''
+    };
+
+    this.tours.update(current => [newTour, ...current]);
   }
-
-
-
 }
-
-

@@ -1,0 +1,491 @@
+/* Tour List Component Styles */
+
+.page-content {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  color: var(--text, #1a1a1a);
+  font-family: 'Syne', sans-serif;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(26, 26, 26, 0.6);
+}
+
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: #58a6ff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #3d8ff0;
+}
+
+.btn-ghost {
+  background: rgba(88, 166, 255, 0.1);
+  color: #58a6ff;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(88, 166, 255, 0.15);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 14px;
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(26, 26, 26, 0.7);
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  border-color: rgba(88, 166, 255, 0.4);
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.filter-btn.active {
+  background: #58a6ff;
+  color: white;
+  border-color: #58a6ff;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-control {
+  padding: 10px 12px;
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  background: white;
+  color: var(--text, #1a1a1a);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.form-control:hover {
+  border-color: rgba(88, 166, 255, 0.4);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+/* Alert */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-info {
+  background: rgba(88, 166, 255, 0.15);
+  border-color: rgba(88, 166, 255, 0.3);
+  color: #0969da;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(88, 166, 255, 0.05);
+  border-radius: 12px;
+  border: 1px dashed rgba(88, 166, 255, 0.2);
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text, #1a1a1a);
+  margin-bottom: 4px;
+  font-family: 'Syne', sans-serif;
+}
+
+.empty-desc {
+  font-size: 13px;
+  color: rgba(26, 26, 26, 0.6);
+  margin-bottom: 16px;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(88, 166, 255, 0.2);
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Data Table */
+.card {
+  background: white;
+  border: 1px solid rgba(88, 166, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+.tours-table-container {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table thead {
+  background: linear-gradient(90deg, rgba(88, 166, 255, 0.04) 0%, rgba(63, 185, 80, 0.04) 100%);
+  border-bottom: 2px solid rgba(88, 166, 255, 0.1);
+}
+
+.data-table th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--text, #1a1a1a);
+  font-family: 'Syne', sans-serif;
+}
+
+.data-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(88, 166, 255, 0.08);
+}
+
+.table-row {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table-row:hover {
+  background: rgba(88, 166, 255, 0.04);
+}
+
+.tour-name {
+  font-weight: 600;
+  color: var(--text, #1a1a1a);
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(88, 166, 255, 0.15);
+  color: #0969da;
+  white-space: nowrap;
+}
+
+.badge-bike {
+  background: rgba(88, 166, 255, 0.15);
+  color: #0969da;
+}
+
+.badge-hike {
+  background: rgba(63, 185, 80, 0.15);
+  color: #238636;
+}
+
+.badge-run {
+  background: rgba(247, 129, 102, 0.15);
+  color: #f78166;
+}
+
+.badge-vacation {
+  background: rgba(181, 127, 208, 0.15);
+  color: #a37bda;
+}
+
+/* Meter Bar */
+.meter-bar {
+  display: flex;
+  gap: 4px;
+}
+
+.meter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(88, 166, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.meter-dot.filled {
+  background: #58a6ff;
+}
+
+/* Stars */
+.stars {
+  font-size: 12px;
+}
+
+/* Action Group */
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.icon-btn:hover {
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.icon-btn.danger:hover {
+  background: rgba(247, 129, 102, 0.15);
+}
+
+/* Utilities */
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+/* Tour Cards (Mobile) */
+.tours-cards-container {
+  display: none;
+  gap: 16px;
+}
+
+.tour-card {
+  background: white;
+  border: 1px solid rgba(88, 166, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tour-card:active {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tour-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(90deg, rgba(88, 166, 255, 0.04) 0%, rgba(63, 185, 80, 0.04) 100%);
+  border-bottom: 1px solid rgba(88, 166, 255, 0.1);
+}
+
+.tour-card-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text, #1a1a1a);
+  font-family: 'Syne', sans-serif;
+}
+
+.tour-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.info-label {
+  font-weight: 600;
+  color: rgba(26, 26, 26, 0.7);
+}
+
+.info-value {
+  color: var(--text, #1a1a1a);
+}
+
+.tour-card-footer {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(88, 166, 255, 0.1);
+  background: rgba(88, 166, 255, 0.02);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .page-content {
+    padding: 20px;
+  }
+
+  .page-header {
+    flex-direction: column;
+  }
+
+  .data-table {
+    font-size: 12px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px 8px;
+  }
+
+  .filter-bar {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .search-box {
+    min-width: 100%;
+  }
+
+  .tours-table-container {
+    display: none;
+  }
+
+  .tours-cards-container {
+    display: grid;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: 12px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .page-header h1 {
+    font-size: 20px;
+  }
+
+  .filter-group {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}

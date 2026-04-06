@@ -1,0 +1,178 @@
+<!-- Tour Form Modal Component Template -->
+
+<div class="modal-overlay" (click)="onOverlayClick($event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        {{ tour ? '✏️ Edit Tour' : '🗺️ Create New Tour' }}
+      </div>
+      <button class="close-btn" (click)="close.emit()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Error Alert -->
+      <div *ngIf="error()" class="alert alert-danger">
+        <strong>Error:</strong> {{ error() }}
+      </div>
+
+      <!-- Form Fields -->
+      <div class="form-group">
+        <label class="label-text">Tour Name *</label>
+        <input
+          class="form-control"
+          [(ngModel)]="formData.name"
+          placeholder="e.g., Alpine Mountain Trail"
+          (blur)="validateField('name')"
+        />
+        <span *ngIf="fieldErrors['name']" class="field-error">{{ fieldErrors['name'] }}</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label-text">From Location *</label>
+          <input
+            class="form-control"
+            [(ngModel)]="formData.fromLocation"
+            placeholder="Start location"
+            (blur)="validateField('fromLocation')"
+          />
+          <span *ngIf="fieldErrors['fromLocation']" class="field-error">
+            {{ fieldErrors['fromLocation'] }}
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="label-text">To Location *</label>
+          <input
+            class="form-control"
+            [(ngModel)]="formData.toLocation"
+            placeholder="End location"
+            (blur)="validateField('toLocation')"
+          />
+          <span *ngIf="fieldErrors['toLocation']" class="field-error">
+            {{ fieldErrors['toLocation'] }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label-text">Transport Type *</label>
+          <select class="form-control" [(ngModel)]="formData.transportType">
+            <option value="">Select type...</option>
+            <option value="bike">🚴 Bike</option>
+            <option value="hike">🥾 Hike</option>
+            <option value="run">🏃 Run</option>
+            <option value="vacation">✈️ Vacation</option>
+          </select>
+          <span *ngIf="fieldErrors['transportType']" class="field-error">
+            {{ fieldErrors['transportType'] }}
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="label-text">Distance (km)</label>
+          <input
+            class="form-control"
+            type="number"
+            [(ngModel)]="formData.distance"
+            placeholder="0.0"
+            min="0"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label-text">Estimated Time (minutes)</label>
+          <input
+            class="form-control"
+            type="number"
+            [(ngModel)]="formData.estimatedTime"
+            placeholder="0"
+            min="0"
+          />
+        </div>
+        <div class="form-group" style="justify-content: flex-end; padding-top: 20px">
+          <button class="btn btn-ghost btn-sm" (click)="fetchRoute()" [disabled]="fetchingRoute()">
+            <span *ngIf="fetchingRoute()" class="spinner" style="width: 12px; height: 12px"></span>
+            🗺️ {{ fetchingRoute() ? 'Fetching...' : 'Fetch Route' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Route Success Message -->
+      <div *ngIf="routeFetched()" class="alert alert-success">
+        ✅ Route fetched: {{ formData.distance }} km, {{ formData.estimatedTime }} min
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label class="label-text">Description</label>
+        <textarea
+          class="form-control textarea"
+          [(ngModel)]="formData.description"
+          placeholder="Describe your tour..."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <!-- Child Friendliness -->
+      <div class="form-group">
+        <label class="label-text">Child Friendliness (1–5)</label>
+        <div class="difficulty-selector">
+          <div *ngFor="let i of [1, 2, 3, 4, 5]" class="difficulty-option">
+            <input
+              type="radio"
+              [id]="'child-' + i"
+              [value]="i"
+              [(ngModel)]="formData.childFriendliness"
+              name="childFriendliness"
+            />
+            <label [for]="'child-' + i" class="difficulty-label">
+              <span class="difficulty-dots">
+                <span *ngFor="let j of [1, 2, 3, 4, 5]" class="dot" [class.filled]="j <= i"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label class="label-text">Tour Image</label>
+        <div class="image-upload">
+          <div *ngIf="!formData.image" class="upload-placeholder" (click)="fileInput.click()">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">Click to upload image</div>
+          </div>
+          <div *ngIf="formData.image" class="image-preview">
+            <img [src]="formData.image" alt="Tour preview" />
+            <button type="button" class="btn btn-ghost btn-sm" (click)="removeImage()">
+              Remove
+            </button>
+          </div>
+          <input
+            type="file"
+            #fileInput
+            hidden
+            accept="image/*"
+            (change)="onImageSelected($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box">
+        ℹ️ Enter locations as place names. Click "Fetch Route" to calculate distance and time automatically.
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="close.emit()">Cancel</button>
+      <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
+        <span *ngIf="saving()" class="spinner" style="width: 12px; height: 12px"></span>
+        {{ saving() ? 'Saving…' : tour ? 'Save Changes' : 'Create Tour' }}
+      </button>
+    </div>
+  </div>
+</div>

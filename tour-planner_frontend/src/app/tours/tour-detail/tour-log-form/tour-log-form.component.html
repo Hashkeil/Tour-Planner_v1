@@ -1,0 +1,128 @@
+<!-- Tour Log Form Component Template -->
+
+<div class="modal-overlay" (click)="onOverlayClick($event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        {{ log ? '✏️ Edit Log' : '📋 New Tour Log' }}
+      </div>
+      <button class="close-btn" (click)="close.emit()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Error Alert -->
+      <div *ngIf="error()" class="alert alert-danger">
+        <strong>Error:</strong> {{ error() }}
+      </div>
+
+      <!-- Date -->
+      <div class="form-group">
+        <label class="label-text">Date of Tour *</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          [(ngModel)]="formData.dateTime"
+          (blur)="validateField('dateTime')"
+        />
+        <span *ngIf="fieldErrors['dateTime']" class="field-error">{{ fieldErrors['dateTime'] }}</span>
+      </div>
+
+      <!-- Difficulty -->
+      <div class="form-group">
+        <label class="label-text">Difficulty (1-5) *</label>
+        <div class="difficulty-selector">
+          <div *ngFor="let i of [1, 2, 3, 4, 5]" class="difficulty-option">
+            <input
+              type="radio"
+              [id]="'difficulty-' + i"
+              [value]="i"
+              [(ngModel)]="formData.difficulty"
+              [name]="'difficulty'"
+            />
+            <label [for]="'difficulty-' + i" class="difficulty-label">
+              <span class="difficulty-dots">
+                <span *ngFor="let j of [1, 2, 3, 4, 5]" class="dot" [class.filled]="j <= i"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <span *ngIf="fieldErrors['difficulty']" class="field-error">{{ fieldErrors['difficulty'] }}</span>
+      </div>
+
+      <!-- Distance & Time -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label-text">Distance (km) *</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="formData.distance"
+            placeholder="0.0"
+            min="0"
+            step="0.1"
+            (blur)="validateField('distance')"
+          />
+          <span *ngIf="fieldErrors['distance']" class="field-error">{{ fieldErrors['distance'] }}</span>
+        </div>
+        <div class="form-group">
+          <label class="label-text">Total Time (minutes) *</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="formData.totalTime"
+            placeholder="0"
+            min="0"
+            (blur)="validateField('totalTime')"
+          />
+          <span *ngIf="fieldErrors['totalTime']" class="field-error">{{ fieldErrors['totalTime'] }}</span>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="form-group">
+        <label class="label-text">Rating (1-5) *</label>
+        <div class="rating-selector">
+          <div *ngFor="let i of [1, 2, 3, 4, 5]" class="rating-option">
+            <input
+              type="radio"
+              [id]="'rating-' + i"
+              [value]="i"
+              [(ngModel)]="formData.rating"
+              [name]="'rating'"
+            />
+            <label [for]="'rating-' + i" class="rating-label">
+              {{ getStarDisplay(i) }}
+            </label>
+          </div>
+        </div>
+        <span *ngIf="fieldErrors['rating']" class="field-error">{{ fieldErrors['rating'] }}</span>
+      </div>
+
+      <!-- Comment -->
+      <div class="form-group">
+        <label class="label-text">Comment</label>
+        <textarea
+          class="form-control textarea"
+          [(ngModel)]="formData.comment"
+          placeholder="Share your experience..."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box">
+        ℹ️ Record all details of your tour experience. This helps you track your progress and fitness.
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="close.emit()">Cancel</button>
+      <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
+        <span *ngIf="saving()" class="spinner" style="width: 12px; height: 12px"></span>
+        {{ saving() ? 'Saving…' : log ? 'Save Changes' : 'Create Log' }}
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,99 @@
+<!-- Import/Export Component Template -->
+
+<div class="page-content">
+  <div class="page-header">
+    <div>
+      <h1>Import & Export</h1>
+      <p class="page-subtitle">Manage your tour data</p>
+    </div></div>
+
+  <!-- Export Section -->
+  <div class="card mb-16">
+    <div class="card-header">
+      <h2 class="card-title">Export Tours</h2>
+    </div>
+    <div class="card-body">
+      <p class="small muted">Download your tours in different formats</p>
+      <div class="export-options">
+        <button class="export-btn" (click)="exportJSON()">
+          <span class="export-icon">📄</span>
+          <div class="export-info">
+            <div class="export-title">Export as JSON</div>
+            <div class="export-desc">Full data format</div>
+          </div>
+        </button>
+        <button class="export-btn" (click)="exportCSV()">
+          <span class="export-icon">📊</span>
+          <div class="export-info">
+            <div class="export-title">Export as CSV</div>
+            <div class="export-desc">Spreadsheet format</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Section -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Import Tours</h2>
+    </div>
+    <div class="card-body">
+      <p class="small muted">Upload tour data from JSON or CSV files</p>
+
+      <!-- Alert Messages -->
+      <div *ngIf="successMessage" class="alert alert-success">
+        <span>✓</span>
+        <span>{{ successMessage }}</span>
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <span>✕</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Upload Area -->
+      <div
+        class="upload-area"
+        [class.dragover]="isDragover"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept=".json,.csv"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+        <div class="upload-content">
+          <span class="upload-icon">📁</span>
+          <div class="upload-text">
+            <div class="upload-title">Drag & drop your file here</div>
+            <div class="upload-desc">or <a href="javascript:void(0)" (click)="fileInput.click()">browse</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supported Formats Info -->
+      <div class="info-box">
+        <strong>Supported formats:</strong> JSON (.json) and CSV (.csv) files. CSV must include columns: name, distance, route, difficulty, estTime.
+      </div>
+
+      <!-- File Preview -->
+      <div *ngIf="selectedFile" class="file-preview">
+        <div class="file-info">
+          <span class="file-icon">✓</span>
+          <div>
+            <div class="file-name">{{ selectedFile.name }}</div>
+            <div class="file-size">{{ (selectedFile.size / 1024).toFixed(2) }} KB</div>
+          </div>
+        </div>
+        <button class="btn btn-primary" (click)="importFile()" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Import</span>
+          <span *ngIf="isLoading" class="spinner"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

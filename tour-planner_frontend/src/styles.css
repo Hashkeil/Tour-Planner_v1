@@ -1,4 +1,4 @@
-
+@import './app/globals.css';
 
 * {
   font-family: 'Raleway', 'Open Sans', sans-serif;
@@ -10,5 +10,25 @@ html, body {
   font-family: 'Raleway', 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 1) 100%);
+  color: #1a1a1a;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(88, 166, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(88, 166, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(88, 166, 255, 0.5);
+}

@@ -1,39 +1,37 @@
-export class Tour {
-    id: number;
-    name: string;
-    distance: number;
-    duration: number;
-    image: string;
+/**
+ * Tour Model - Represents a tour with all required attributes
+ */
+export interface Tour {
+  id: number;
+  name: string;
+  description?: string;
+  fromLocation: string;
+  toLocation: string;
+  transportType: 'bike' | 'hike' | 'run' | 'vacation';
+  distance: number;
+  estimatedTime: number;
+  popularity: number;
+  childFriendliness: number;
+  averageRating: number;
+  image?: string;
+  routeGeometry?: string;
+  tourLogs?: TourLog[];
+  createdAt?: Date;
+  modifiedAt?: Date;
+}
 
-    constructor(id: number, name: string, distance: number, duration: number, image: string) {
-        this.id = id;
-        this.name = name;
-        this.distance = distance;
-        this.duration = duration;
-        this.image = image;
-    }
-
-    getTotalDistance(): number {
-        return this.distance;
-    }
-
-    getTotalDuration(): number {
-        return this.duration;
-    }
-
-    getTotalTours(): number {
-        return this.id;
-    }
-
-    getTourImage(): string {
-        return this.image;
-    }
-
-    getName(): string {
-        return this.name;
-    }
-
-    isSetImage(): boolean {
-        return this.image !== '';
-    }
+/**
+ * TourLog Model - Represents a log entry for a specific tour
+ */
+export interface TourLog {
+  id: number;
+  tourId: number;
+  dateTime: Date;
+  comment?: string;
+  difficulty: number;
+  distance: number;
+  totalTime: number;
+  rating: number;
+  createdAt?: Date;
+  modifiedAt?: Date;
 }
