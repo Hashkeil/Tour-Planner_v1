@@ -1,83 +1,81 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Tour } from '../model/tour.model';
+import { Router, RouterLink } from '@angular/router';
+import { TourService } from '../services/tour.service';
+import { TourLogService } from '../services/tour-log.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
-  tours = signal<Tour[]>([
-    {
-      id: 1,
-      name: 'Alpine Mountain Trail',
-      description: 'Beautiful alpine hiking route',
-      fromLocation: 'Innsbruck',
-      toLocation: 'Zillertal',
-      transportType: 'hike',
-      distance: 350,
-      estimatedTime: 7,
-      image: 'alpine.jpg',
-      popularity: 0,
-      childFriendliness: 0,
-      averageRating: 0
-    },
-    {
-      id: 2,
-      name: 'Danube Cycle Path',
-      description: 'Scenic cycling tour along the Danube',
-      fromLocation: 'Vienna',
-      toLocation: 'Passau',
-      transportType: 'bike',
-      distance: 320,
-      estimatedTime: 5,
-      image: 'city.jpg',
-      popularity: 0,
-      childFriendliness: 0,
-      averageRating: 0
-    },
-    {
-      id: 3,
-      name: 'City Highlights Tour',
-      description: 'Explore the most important city spots',
-      fromLocation: 'City Center',
-      toLocation: 'Old Town',
-      transportType: 'run',
-      distance: 25,
-      estimatedTime: 4,
-      image: '',
-      popularity: 0,
-      childFriendliness: 0,
-      averageRating: 0
-    }
-  ]);
+  private tourService = inject(TourService);
+  private tourLogService = inject(TourLogService);
+  private router = inject(Router);
 
-  recentTours = computed(() => this.tours().slice(0, 3));
-  totalDistance = computed(() =>
-    this.tours().reduce((acc, tour) => acc + (tour.distance ?? 0), 0)
-  );
-  totalDuration = computed(() =>
-    this.tours().reduce((acc, tour) => acc + (tour.estimatedTime ?? 0), 0)
-  );
+  tours = computed(() => this.tourService.getTours());
+  recentTours = computed(() => this.tours().slice(0, 6));
+
   totalTours = computed(() => this.tours().length);
+  totalDistance = computed(() =>
+    this.tours().reduce((acc, t) => acc + (t.distance ?? 0), 0)
+  );
+  totalDuration = computed(() => {
+    const mins = this.tours().reduce((acc, t) => acc + (t.estimatedTime ?? 0), 0);
+    return Math.round(mins / 60);
+  });
 
-  addTour(): void {
-    const newTour: Tour = {
-      averageRating: 0, childFriendliness: 0, popularity: 0,
-      id: this.tours().length + 1,
-      name: 'Added Tour',
-      description: 'Newly created tour',
-      fromLocation: 'Start',
-      toLocation: 'Destination',
-      transportType: 'hike',
-      distance: 100,
-      estimatedTime: 2,
-      image: ''
+  allLogs = computed(() => {
+    const logs = this.tours().flatMap(t =>
+      this.tourLogService.getLogsForTour(t.id).map(log => ({
+        ...log,
+        tourName: t.name,
+        tourId: t.id
+      }))
+    );
+    return logs.sort((a, b) =>
+      new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
+    );
+  });
+
+  recentLogs = computed(() => this.allLogs().slice(0, 5));
+  totalLogs = computed(() => this.allLogs().length);
+
+  goToTour(id: number): void {
+    this.router.navigate(['/tours', id]);
+  }
+
+  goToNewTour(): void {
+    this.router.navigate(['/tours']);
+  }
+
+  getIcon(type: string): string {
+    const icons: Record<string, string> = {
+      bike: '🚴',
+      hike: '🥾',
+      run: '🏃',
+      vacation: '✈️'
     };
+    return icons[type] ?? '🗺️';
+  }
 
-    this.tours.update(current => [newTour, ...current]);
+  formatTime(minutes: number): string {
+    if (!minutes) return '0h';
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+  }
+
+  formatDate(date: Date | string): string {
+    const d = new Date(date);
+    return d.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  getStars(rating: number): string {
+    const full = Math.round(rating);
+    return '★'.repeat(full) + '☆'.repeat(5 - full);
   }
 }

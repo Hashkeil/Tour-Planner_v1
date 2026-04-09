@@ -5,7 +5,6 @@
       <h1 class="page-title">Dashboard</h1>
       <p class="page-subtitle">Welcome back! Here's your tour overview</p>
     </div>
-    <button class="btn btn-primary" (click)="addTour()">+ New Tour</button>
   </div>
 
   <!-- Metrics Cards -->
@@ -15,6 +14,14 @@
       <div class="metric-content">
         <div class="metric-label">Total Tours</div>
         <div class="metric-value">{{ totalTours() }}</div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon">📋</div>
+      <div class="metric-content">
+        <div class="metric-label">Total Logs</div>
+        <div class="metric-value">{{ totalLogs() }}</div>
       </div>
     </div>
 
@@ -41,23 +48,32 @@
     <div class="card">
       <div class="card-header">
         <h2 class="card-title">📍 Recent Tours</h2>
-        <a href="/tours" class="link">View all</a>
+        <a routerLink="/tours" class="link">View all</a>
       </div>
       <div class="card-body">
         <div *ngIf="recentTours().length === 0" class="empty-state">
           <div class="empty-icon">🗺️</div>
           <div class="empty-title">No tours yet</div>
           <div class="empty-desc">Create your first tour to get started</div>
+          <button class="btn btn-primary btn-sm" (click)="goToNewTour()">+ New Tour</button>
         </div>
         <div *ngIf="recentTours().length > 0" class="tours-list">
           @for (tour of recentTours(); track tour.id) {
-            <div class="tour-item">
-              <div class="tour-image" *ngIf="tour.image">
-                <img [src]="tour.image" [alt]="tour.name">
+            <div class="tour-item" (click)="goToTour(tour.id)">
+              <div class="tour-thumb">
+                <img *ngIf="tour.image" [src]="tour.image" [alt]="tour.name">
+                <span *ngIf="!tour.image" class="tour-thumb-icon">{{ getIcon(tour.transportType) }}</span>
               </div>
               <div class="tour-info">
-                <h4 class="tour-name">{{ tour.name }}</h4>
-                <p class="tour-details">{{ tour.distance }} km</p>
+                <div class="tour-top">
+                  <h4 class="tour-name">{{ tour.name }}</h4>
+                  <span class="tour-badge badge-{{ tour.transportType }}">{{ getIcon(tour.transportType) }} {{ tour.transportType }}</span>
+                </div>
+                <p class="tour-meta">{{ tour.fromLocation }} → {{ tour.toLocation }}</p>
+                <p class="tour-details">{{ tour.distance }} km &nbsp;·&nbsp; {{ formatTime(tour.estimatedTime) }}</p>
+              </div>
+              <div class="tour-rating" *ngIf="tour.averageRating">
+                <span class="stars">{{ getStars(tour.averageRating) }}</span>
               </div>
             </div>
           }
@@ -65,34 +81,33 @@
       </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Recent Tour Logs -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">⚡ Recent Activity</h2>
+        <h2 class="card-title">📋 Recent Logs</h2>
+        <span class="log-count" *ngIf="totalLogs() > 0">{{ totalLogs() }} total</span>
       </div>
       <div class="card-body">
-        <div class="activity-list">
-          <div class="activity-item">
-            <span class="activity-icon">✨</span>
-            <div class="activity-content">
-              <p><strong>You</strong> created "Alpine Mountain Trail"</p>
-              <span class="activity-time">2 hours ago</span>
+        <div *ngIf="recentLogs().length === 0" class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div class="empty-title">No logs yet</div>
+          <div class="empty-desc">Open a tour and add your first log entry</div>
+        </div>
+        <div *ngIf="recentLogs().length > 0" class="log-list">
+          @for (log of recentLogs(); track log.id) {
+            <div class="log-item" (click)="goToTour(log.tourId)">
+              <div class="log-icon">📅</div>
+              <div class="log-content">
+                <p class="log-tour-name">{{ log.tourName }}</p>
+                <p class="log-meta">{{ formatDate(log.dateTime) }} &nbsp;·&nbsp; {{ log.distance }} km &nbsp;·&nbsp; {{ formatTime(log.totalTime) }}</p>
+                <div class="log-badges">
+                  <span class="log-badge difficulty">⚡ Diff: {{ log.difficulty }}/5</span>
+                  <span class="log-badge rating">★ {{ log.rating }}/5</span>
+                </div>
+                <p class="log-comment" *ngIf="log.comment">{{ log.comment }}</p>
+              </div>
             </div>
-          </div>
-          <div class="activity-item">
-            <span class="activity-icon">📥</span>
-            <div class="activity-content">
-              <p><strong>System</strong> imported 3 new logs</p>
-              <span class="activity-time">Yesterday</span>
-            </div>
-          </div>
-          <div class="activity-item">
-            <span class="activity-icon">⚙️</span>
-            <div class="activity-content">
-              <p><strong>You</strong> updated settings</p>
-              <span class="activity-time">3 days ago</span>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>

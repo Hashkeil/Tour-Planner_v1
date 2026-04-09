@@ -82,7 +82,7 @@ export class TourService {
       createdAt: new Date(),
       modifiedAt: new Date()
     };
-    this.tours.update(tours => [...tours, newTour]);
+    this.tours.update(tours => [newTour,...tours]);
     return newTour;
   }
 
@@ -153,7 +153,7 @@ export class TourService {
       const existing = this.tours();
       const toAdd = imported.filter(imp => !existing.some(ex => ex.name === imp.name));
 
-      this.tours.update(tours => [...tours, ...toAdd]);
+      this.tours.update(tours => [ ...toAdd,...tours]);
       return true;
     } catch {
       return false;
