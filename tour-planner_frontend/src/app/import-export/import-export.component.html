@@ -42,14 +42,18 @@
       <p class="small muted">Upload tour data from JSON or CSV files</p>
 
       <!-- Alert Messages -->
-      <div *ngIf="successMessage" class="alert alert-success">
-        <span>✓</span>
-        <span>{{ successMessage }}</span>
-      </div>
-      <div *ngIf="errorMessage" class="alert alert-danger">
-        <span>✕</span>
-        <span>{{ errorMessage }}</span>
-      </div>
+      @if (successMessage) {
+        <div class="alert alert-success">
+          <span>✓</span>
+          <span>{{ successMessage }}</span>
+        </div>
+      }
+      @if (errorMessage) {
+        <div class="alert alert-danger">
+          <span>✕</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
 
       <!-- Upload Area -->
       <div
@@ -81,19 +85,24 @@
       </div>
 
       <!-- File Preview -->
-      <div *ngIf="selectedFile" class="file-preview">
-        <div class="file-info">
-          <span class="file-icon">✓</span>
-          <div>
-            <div class="file-name">{{ selectedFile.name }}</div>
-            <div class="file-size">{{ (selectedFile.size / 1024).toFixed(2) }} KB</div>
+      @if (selectedFile) {
+        <div class="file-preview">
+          <div class="file-info">
+            <span class="file-icon">✓</span>
+            <div>
+              <div class="file-name">{{ selectedFile.name }}</div>
+              <div class="file-size">{{ (selectedFile.size / 1024).toFixed(2) }} KB</div>
+            </div>
           </div>
+          <button class="btn btn-primary" (click)="importFile()" [disabled]="isLoading">
+            @if (!isLoading) {
+              <span>Import</span>
+            } @else {
+              <span class="spinner"></span>
+            }
+          </button>
         </div>
-        <button class="btn btn-primary" (click)="importFile()" [disabled]="isLoading">
-          <span *ngIf="!isLoading">Import</span>
-          <span *ngIf="isLoading" class="spinner"></span>
-        </button>
-      </div>
+      }
     </div>
   </div>
 </div>

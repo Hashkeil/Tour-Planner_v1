@@ -11,9 +11,11 @@
 
     <div class="modal-body">
       <!-- Error Alert -->
-      <div *ngIf="error()" class="alert alert-danger">
-        <strong>Error:</strong> {{ error() }}
-      </div>
+      @if (error()) {
+        <div class="alert alert-danger">
+          <strong>Error:</strong> {{ error() }}
+        </div>
+      }
 
       <!-- Date -->
       <div class="form-group">
@@ -24,29 +26,37 @@
           [(ngModel)]="formData.dateTime"
           (blur)="validateField('dateTime')"
         />
-        <span *ngIf="fieldErrors['dateTime']" class="field-error">{{ fieldErrors['dateTime'] }}</span>
+        @if (fieldErrors['dateTime']) {
+          <span class="field-error">{{ fieldErrors['dateTime'] }}</span>
+        }
       </div>
 
       <!-- Difficulty -->
       <div class="form-group">
         <label class="label-text">Difficulty (1-5) *</label>
         <div class="difficulty-selector">
-          <div *ngFor="let i of [1, 2, 3, 4, 5]" class="difficulty-option">
-            <input
-              type="radio"
-              [id]="'difficulty-' + i"
-              [value]="i"
-              [(ngModel)]="formData.difficulty"
-              [name]="'difficulty'"
-            />
-            <label [for]="'difficulty-' + i" class="difficulty-label">
-              <span class="difficulty-dots">
-                <span *ngFor="let j of [1, 2, 3, 4, 5]" class="dot" [class.filled]="j <= i"></span>
-              </span>
-            </label>
-          </div>
+          @for (i of [1, 2, 3, 4, 5]; track i) {
+            <div class="difficulty-option">
+              <input
+                type="radio"
+                [id]="'difficulty-' + i"
+                [value]="i"
+                [(ngModel)]="formData.difficulty"
+                [name]="'difficulty'"
+              />
+              <label [for]="'difficulty-' + i" class="difficulty-label">
+                <span class="difficulty-dots">
+                  @for (j of [1, 2, 3, 4, 5]; track j) {
+                    <span class="dot" [class.filled]="j <= i"></span>
+                  }
+                </span>
+              </label>
+            </div>
+          }
         </div>
-        <span *ngIf="fieldErrors['difficulty']" class="field-error">{{ fieldErrors['difficulty'] }}</span>
+        @if (fieldErrors['difficulty']) {
+          <span class="field-error">{{ fieldErrors['difficulty'] }}</span>
+        }
       </div>
 
       <!-- Distance & Time -->
@@ -62,7 +72,9 @@
             step="0.1"
             (blur)="validateField('distance')"
           />
-          <span *ngIf="fieldErrors['distance']" class="field-error">{{ fieldErrors['distance'] }}</span>
+          @if (fieldErrors['distance']) {
+            <span class="field-error">{{ fieldErrors['distance'] }}</span>
+          }
         </div>
         <div class="form-group">
           <label class="label-text">Total Time (minutes) *</label>
@@ -74,7 +86,9 @@
             min="0"
             (blur)="validateField('totalTime')"
           />
-          <span *ngIf="fieldErrors['totalTime']" class="field-error">{{ fieldErrors['totalTime'] }}</span>
+          @if (fieldErrors['totalTime']) {
+            <span class="field-error">{{ fieldErrors['totalTime'] }}</span>
+          }
         </div>
       </div>
 
@@ -82,20 +96,24 @@
       <div class="form-group">
         <label class="label-text">Rating (1-5) *</label>
         <div class="rating-selector">
-          <div *ngFor="let i of [1, 2, 3, 4, 5]" class="rating-option">
-            <input
-              type="radio"
-              [id]="'rating-' + i"
-              [value]="i"
-              [(ngModel)]="formData.rating"
-              [name]="'rating'"
-            />
-            <label [for]="'rating-' + i" class="rating-label">
-              {{ getStarDisplay(i) }}
-            </label>
-          </div>
+          @for (i of [1, 2, 3, 4, 5]; track i) {
+            <div class="rating-option">
+              <input
+                type="radio"
+                [id]="'rating-' + i"
+                [value]="i"
+                [(ngModel)]="formData.rating"
+                [name]="'rating'"
+              />
+              <label [for]="'rating-' + i" class="rating-label">
+                {{ getStarDisplay(i) }}
+              </label>
+            </div>
+          }
         </div>
-        <span *ngIf="fieldErrors['rating']" class="field-error">{{ fieldErrors['rating'] }}</span>
+        @if (fieldErrors['rating']) {
+          <span class="field-error">{{ fieldErrors['rating'] }}</span>
+        }
       </div>
 
       <!-- Comment -->
@@ -119,10 +137,11 @@
     <div class="modal-footer">
       <button class="btn btn-ghost" (click)="close.emit()">Cancel</button>
       <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
-        <span *ngIf="saving()" class="spinner" style="width: 12px; height: 12px"></span>
+        @if (saving()) {
+          <span class="spinner" style="width: 12px; height: 12px"></span>
+        }
         {{ saving() ? 'Saving…' : log ? 'Save Changes' : 'Create Log' }}
       </button>
     </div>
   </div>
 </div>
-
