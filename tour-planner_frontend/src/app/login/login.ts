@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -12,17 +12,14 @@ import {CommonModule} from '@angular/common';
   styleUrl: './login.css'
 })
 export class LoginComponent {
+  // Services nun durch inject() anstatt Constructor
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   // Variablen für die Eingabe und die Fehlermeldung
   email = '';
   password = '';
   message = '';
-
-  constructor(
-    //bessere aus auf inject-Funktion außerhalb von Konstruktor
-    private authService: AuthService,
-    private router: Router
-  ) {}
 
 
   onLogin(): void {

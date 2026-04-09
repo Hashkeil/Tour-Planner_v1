@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TourService } from '../services/tour.service';
 import { Tour } from '../model/tour.model';
@@ -10,13 +10,13 @@ import { Tour } from '../model/tour.model';
   imports: [CommonModule]
 })
 export class ImportExportComponent implements OnInit {
+  private tourService = inject(TourService);
+
   selectedFile: File | null = null;
   isDragover = false;
   isLoading = false;
   successMessage = '';
   errorMessage = '';
-
-  constructor(private tourService: TourService) {}
 
   ngOnInit(): void {}
 

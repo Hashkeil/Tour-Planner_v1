@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -13,11 +13,8 @@ the guard redirects the user to the login page and returns false, preventing acc
 })
 export class AuthGuard implements CanActivate {
 
-  constructor( private authService: AuthService,  private router: Router)
-  {
-
-  }
-
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   canActivate(): boolean {
 

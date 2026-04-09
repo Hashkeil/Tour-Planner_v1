@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TourLog } from '../../../model/tour.model';
@@ -18,12 +18,12 @@ export class TourLogFormComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<TourLog>();
 
+  private tourLogService = inject(TourLogService);
+
   formData: any = {};
   error = signal('');
   saving = signal(false);
   fieldErrors: Record<string, string> = {};
-
-  constructor(private tourLogService: TourLogService) {}
 
   ngOnInit(): void {
     this.initializeForm();

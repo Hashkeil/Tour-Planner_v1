@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { TourLog } from '../model/tour.model';
 import { TourService } from './tour.service';
 
@@ -62,7 +62,9 @@ export class TourLogService {
   ]);
 
 
-  constructor(private tourService: TourService) {
+  private tourService = inject(TourService);
+
+  constructor() {
     // Sync stats for all seed data tours on startup
     this.syncTourStats(1);
     this.syncTourStats(2);

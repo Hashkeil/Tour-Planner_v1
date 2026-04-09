@@ -1,5 +1,5 @@
 // CORRECTED FILE — all 3 bugs fixed (see comments below)
-import { Component, Input, Output, EventEmitter, OnInit, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tour } from '../../model/tour.model';
@@ -18,6 +18,8 @@ export class TourFormComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<Tour>();
 
+  private tourService = inject(TourService);
+
   // State
   formData: any = {};
   error = signal('');
@@ -25,8 +27,6 @@ export class TourFormComponent implements OnInit {
   fetchingRoute = signal(false);
   routeFetched = signal(false);
   fieldErrors: Record<string, string> = {};
-
-  constructor(private tourService: TourService) {}
 
   ngOnInit(): void {
     this.initializeForm();
