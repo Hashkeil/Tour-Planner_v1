@@ -41,9 +41,11 @@
         </form>
 
 
-        <div *ngIf="message" class="message-box" [class.error]="message.includes('Invalid')">
-          {{ message }}
-        </div>
+        @if (message) {
+          <div class="message-box" [class.error]="message.includes('Invalid')">
+            {{ message }}
+          </div>
+        }
 
         <p class="register-link">
           Don't have an account? <a routerLink="/register">Create One</a>

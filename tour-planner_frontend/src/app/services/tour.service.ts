@@ -5,6 +5,8 @@ import { Tour, TourLog } from '../model/tour.model';
 @Injectable({
   providedIn: 'root'
 })
+
+//vorab hardcoded Tours
 export class TourService {
   private tours = signal<Tour[]>([
     {

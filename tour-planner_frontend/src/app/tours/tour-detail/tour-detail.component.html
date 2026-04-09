@@ -7,230 +7,254 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="loading()" class="empty-state">
-    <div class="spinner" style="width: 32px; height: 32px"></div>
-    <div style="margin-top: 12px; font-size: 13px; color: var(--muted)">Loading tour details...</div>
-  </div>
+  @if (loading()) {
+    <div class="empty-state">
+      <div class="spinner" style="width: 32px; height: 32px"></div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--muted)">Loading tour details...</div>
+    </div>
+  }
 
-  <div *ngIf="!loading() && error()" class="empty-state">
-    <div class="empty-icon">⚠️</div>
-    <div class="empty-title">Something went wrong</div>
-    <div class="empty-desc">{{ error() }}</div>
-    <a routerLink="/tours" class="btn btn-primary" style="margin-top: 12px">← Back to Tours</a>
-  </div>
+  @if (!loading() && error()) {
+    <div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <div class="empty-title">Something went wrong</div>
+      <div class="empty-desc">{{ error() }}</div>
+      <a routerLink="/tours" class="btn btn-primary" style="margin-top: 12px">← Back to Tours</a>
+    </div>
+  }
 
   <!-- Tour Not Found -->
-  <div *ngIf="!loading() && !error() && !tour()" class="empty-state">
-    <div class="empty-icon">❌</div>
-    <div class="empty-title">Tour not found</div>
-    <div class="empty-desc">The tour you're looking for doesn't exist</div>
-    <a routerLink="/tours" class="btn btn-primary" style="margin-top: 12px">← Back to Tours</a>
-  </div>
+  @if (!loading() && !error() && !tour()) {
+    <div class="empty-state">
+      <div class="empty-icon">❌</div>
+      <div class="empty-title">Tour not found</div>
+      <div class="empty-desc">The tour you're looking for doesn't exist</div>
+      <a routerLink="/tours" class="btn btn-primary" style="margin-top: 12px">← Back to Tours</a>
+    </div>
+  }
 
   <!-- Tour Content -->
-  <div *ngIf="!loading() && !error() && tour()" class="tour-content">
-    <!-- Header Section -->
-    <div class="tour-header">
-      <div class="tour-header-left">
-        <div class="tour-icon" [style.background]="getIconBg(tour()!.transportType)">
-          {{ getIcon(tour()!.transportType) }}
-        </div>
-        <div>
-          <h1 class="font-display">{{ tour()!.name }}</h1>
-          <div class="tour-meta">
-            <span class="muted small">
-              {{ tour()!.fromLocation }} → {{ tour()!.toLocation }}
-            </span>
-            <span class="badge" [class]="'badge-' + tour()!.transportType.toLowerCase()">
-              {{ capitalizeFirst(tour()!.transportType) }}
-            </span>
+  @if (!loading() && !error() && tour()) {
+    <div class="tour-content">
+      <!-- Header Section -->
+      <div class="tour-header">
+        <div class="tour-header-left">
+          <div class="tour-icon" [style.background]="getIconBg(tour()!.transportType)">
+            {{ getIcon(tour()!.transportType) }}
+          </div>
+          <div>
+            <h1 class="font-display">{{ tour()!.name }}</h1>
+            <div class="tour-meta">
+              <span class="muted small">
+                {{ tour()!.fromLocation }} → {{ tour()!.toLocation }}
+              </span>
+              <span class="badge" [class]="'badge-' + tour()!.transportType.toLowerCase()">
+                {{ capitalizeFirst(tour()!.transportType) }}
+              </span>
+            </div>
           </div>
         </div>
+        <div class="tour-header-actions">
+          <button class="btn btn-ghost" (click)="openEdit()">✏️ Edit</button>
+          <button class="btn btn-danger" (click)="deleteWithConfirm()">🗑️ Delete</button>
+          <button class="btn btn-primary" (click)="openAddLog()">+ Add Log</button>
+        </div>
       </div>
-      <div class="tour-header-actions">
-        <button class="btn btn-ghost" (click)="openEdit()">✏️ Edit</button>
-        <button class="btn btn-danger" (click)="deleteWithConfirm()">🗑️ Delete</button>
-        <button class="btn btn-primary" (click)="openAddLog()">+ Add Log</button>
+
+      <!-- Main Content Grid -->
+      <div class="content-grid">
+        <!-- Left Column: Map & Description -->
+        <div class="main-content">
+          <!-- Map Placeholder -->
+          <div class="map-container">
+            <div class="map-placeholder">
+              <div class="map-icon">🗺️</div>
+              <div class="map-title">Route Map</div>
+              <div class="map-desc">
+                From: {{ tour()!.fromLocation }}<br />
+                To: {{ tour()!.toLocation }}<br />
+                Distance: {{ tour()!.distance }} km
+              </div>
+              <div class="map-note">
+                Map integration will be added with Leaflet or Google Maps
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          @if (tour()!.description) {
+            <div class="description-box">
+              <strong>📝 Description:</strong><br />
+              {{ tour()!.description }}
+            </div>
+          }
+        </div>
+
+        <!-- Right Column: Info Cards -->
+        <aside class="sidebar">
+          <!-- Route Info Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">🗺️ Route Info</h3>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <span class="info-key">Distance</span>
+                <span class="info-val">
+                  {{ tour()!.distance ? (tour()!.distance | number: '1.0-1') + ' km' : '—' }}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Est. Time</span>
+                <span class="info-val">{{ formatTime(tour()!.estimatedTime) }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Transport</span>
+                <span class="info-val">{{ getIcon(tour()!.transportType) }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Difficulty</span>
+                <span class="info-val">
+                  <div class="meter-bar">
+                    @for (i of [1, 2, 3, 4, 5]; track i) {
+                      <div class="meter-dot" [class.filled]="i <= tour()!.childFriendliness"></div>
+                    }
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Statistics Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📊 Statistics</h3>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <span class="info-key">Tour Logs</span>
+                <span class="info-val">{{ logCount() }} total</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Avg Rating</span>
+                <span class="info-val">{{ getStars(averageRating()) }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Child Friendly</span>
+                <span class="info-val">
+                  <div class="meter-bar">
+                    @for (i of [1, 2, 3, 4, 5]; track i) {
+                      <div class="meter-dot" [class.filled]="i <= averageDifficulty()"></div>
+                    }
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image Card -->
+          @if (tour()!.image) {
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">📸 Tour Image</h3>
+              </div>
+              <div class="card-body image-card">
+                <img [src]="tour()!.image" alt="{{ tour()!.name }}" />
+              </div>
+            </div>
+          }
+        </aside>
+      </div>
+
+      <!-- Logs Section -->
+      <div class="logs-section">
+        <div class="logs-header">
+          <h2 class="font-display">📋 Tour Logs</h2>
+          <button class="btn btn-primary btn-sm" (click)="openAddLog()">+ Add Log</button>
+        </div>
+
+        <!-- No Logs State -->
+        @if (tourLogs().length === 0) {
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <div class="empty-title">No logs yet</div>
+            <div class="empty-desc">Record your first tour execution to get started</div>
+            <button class="btn btn-primary" style="margin-top: 12px" (click)="openAddLog()">+ Add Log</button>
+          </div>
+        }
+
+        <!-- Logs List -->
+        @if (tourLogs().length > 0) {
+          <div class="logs-list">
+            @for (log of tourLogs(); track log.id) {
+              <div class="log-card">
+                <div class="log-header">
+                  <div class="log-date">
+                    {{ log.dateTime | date: 'MMM dd, yyyy' }}
+                  </div>
+                  <div class="log-rating">
+                    <span class="stars">{{ getStars(log.rating) }}</span>
+                  </div>
+                  <div class="log-actions">
+                    <button class="icon-btn" title="Edit log" (click)="openEditLog(log)">✏️</button>
+                    <button class="icon-btn danger" title="Delete log" (click)="deleteLogWithConfirm(log)">
+                      🗑️
+                    </button>
+                  </div>
+                </div>
+
+                <div class="log-body">
+                  <div class="log-info-row">
+                    <span class="log-info-key">Difficulty:</span>
+                    <span class="log-info-val">
+                      <div class="meter-bar">
+                        @for (i of [1, 2, 3, 4, 5]; track i) {
+                          <div class="meter-dot" [class.filled]="i <= log.difficulty"></div>
+                        }
+                      </div>
+                    </span>
+                  </div>
+
+                  <div class="log-info-row">
+                    <span class="log-info-key">Distance:</span>
+                    <span class="log-info-val">{{ log.distance | number: '1.0-1' }} km</span>
+                  </div>
+
+                  <div class="log-info-row">
+                    <span class="log-info-key">Time:</span>
+                    <span class="log-info-val">{{ formatTime(log.totalTime) }}</span>
+                  </div>
+
+                  @if (log.comment) {
+                    <div class="log-comment">
+                      <strong>Comment:</strong><br />
+                      {{ log.comment }}
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
-
-    <!-- Main Content Grid -->
-    <div class="content-grid">
-      <!-- Left Column: Map & Description -->
-      <div class="main-content">
-        <!-- Map Placeholder -->
-        <div class="map-container">
-          <app-tour-map
-            [fromLocation]="tour()!.fromLocation"
-            [toLocation]="tour()!.toLocation">
-          </app-tour-map>
-        </div>
-
-        <!-- Description -->
-        <div *ngIf="tour()!.description" class="description-box">
-          <strong>📝 Description:</strong><br />
-          {{ tour()!.description }}
-        </div>
-      </div>
-
-      <!-- Right Column: Info Cards -->
-      <aside class="sidebar">
-        <!-- Route Info Card -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">🗺️ Route Info</h3>
-          </div>
-          <div class="card-body">
-            <div class="info-row">
-              <span class="info-key">Distance</span>
-              <span class="info-val">
-                {{ tour()!.distance ? (tour()!.distance | number: '1.0-1') + ' km' : '—' }}
-              </span>
-            </div>
-            <div class="info-row">
-              <span class="info-key">Est. Time</span>
-              <span class="info-val">{{ formatTime(tour()!.estimatedTime) }}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-key">Transport</span>
-              <span class="info-val">{{ getIcon(tour()!.transportType) }}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-key">Difficulty</span>
-              <span class="info-val">
-                <div class="meter-bar">
-                  <div
-                    *ngFor="let i of [1, 2, 3, 4, 5]"
-                    class="meter-dot"
-                    [class.filled]="i <= tour()!.childFriendliness"
-                  ></div>
-                </div>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Statistics Card -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">📊 Statistics</h3>
-          </div>
-          <div class="card-body">
-            <div class="info-row">
-              <span class="info-key">Tour Logs</span>
-              <span class="info-val">{{ logCount() }} total</span>
-            </div>
-            <div class="info-row">
-              <span class="info-key">Avg Rating</span>
-              <span class="info-val">{{ getStars(averageRating()) }}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-key">Child Friendly</span>
-              <span class="info-val">
-                <div class="meter-bar">
-                  <div
-                    *ngFor="let i of [1, 2, 3, 4, 5]"
-                    class="meter-dot"
-                    [class.filled]="i <= averageDifficulty()"
-                  ></div>
-                </div>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Image Card -->
-        <div *ngIf="tour()!.image" class="card">
-          <div class="card-header">
-            <h3 class="card-title">📸 Tour Image</h3>
-          </div>
-          <div class="card-body image-card">
-            <img [src]="tour()!.image" alt="{{ tour()!.name }}" />
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Logs Section -->
-    <div class="logs-section">
-      <div class="logs-header">
-        <h2 class="font-display">📋 Tour Logs</h2>
-        <button class="btn btn-primary btn-sm" (click)="openAddLog()">+ Add Log</button>
-      </div>
-
-      <!-- No Logs State -->
-      <div *ngIf="tourLogs().length === 0" class="empty-state">
-        <div class="empty-icon">📋</div>
-        <div class="empty-title">No logs yet</div>
-        <div class="empty-desc">Record your first tour execution to get started</div>
-        <button class="btn btn-primary" style="margin-top: 12px" (click)="openAddLog()">+ Add Log</button>
-      </div>
-
-      <!-- Logs List -->
-      <div *ngIf="tourLogs().length > 0" class="logs-list">
-        <div *ngFor="let log of tourLogs()" class="log-card">
-          <div class="log-header">
-            <div class="log-date">
-              {{ log.dateTime | date: 'MMM dd, yyyy' }}
-            </div>
-            <div class="log-rating">
-              <span class="stars">{{ getStars(log.rating) }}</span>
-            </div>
-            <div class="log-actions">
-              <button class="icon-btn" title="Edit log" (click)="openEditLog(log)">✏️</button>
-              <button class="icon-btn danger" title="Delete log" (click)="deleteLogWithConfirm(log)">
-                🗑️
-              </button>
-            </div>
-          </div>
-
-          <div class="log-body">
-            <div class="log-info-row">
-              <span class="log-info-key">Difficulty:</span>
-              <span class="log-info-val">
-                <div class="meter-bar">
-                  <div
-                    *ngFor="let i of [1, 2, 3, 4, 5]"
-                    class="meter-dot"
-                    [class.filled]="i <= log.difficulty"
-                  ></div>
-                </div>
-              </span>
-            </div>
-
-            <div class="log-info-row">
-              <span class="log-info-key">Distance:</span>
-              <span class="log-info-val">{{ log.distance | number: '1.0-1' }} km</span>
-            </div>
-
-            <div class="log-info-row">
-              <span class="log-info-key">Time:</span>
-              <span class="log-info-val">{{ formatTime(log.totalTime) }}</span>
-            </div>
-
-            <div *ngIf="log.comment" class="log-comment">
-              <strong>Comment:</strong><br />
-              {{ log.comment }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  }
 </div>
 
 <!-- Tour Form Modal (for editing) -->
-<app-tour-form
-  *ngIf="showEditForm()"
-  [tour]="tour()"
-  (close)="closeEditForm()"
-  (saved)="onTourSaved($event)"
-></app-tour-form>
+@if (showEditForm()) {
+  <app-tour-form
+    [tour]="tour()"
+    (close)="closeEditForm()"
+    (saved)="onTourSaved($event)"
+  ></app-tour-form>
+}
 
-<app-tour-log-form
-  *ngIf="showLogForm()"
-  [tourId]="tour()!.id"
-  [log]="editingLog()"
-  (close)="closeLogForm()"
-  (saved)="onLogSaved($event)"
-></app-tour-log-form>
+@if (showLogForm()) {
+  <app-tour-log-form
+    [tourId]="tour()!.id"
+    [log]="editingLog()"
+    (close)="closeLogForm()"
+    (saved)="onLogSaved($event)"
+  ></app-tour-log-form>
+}

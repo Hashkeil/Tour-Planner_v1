@@ -122,11 +122,15 @@
     </div>
   </div>
 
-  <div *ngIf="successMessage().length > 0" class="alert alert-success" style="margin-top: 20px; animation: slideIn 0.3s ease">
-    ✅ {{ successMessage() }}
-  </div>
+  @if (successMessage().length > 0) {
+    <div class="alert alert-success" style="margin-top: 20px; animation: slideIn 0.3s ease">
+      ✅ {{ successMessage() }}
+    </div>
+  }
 
-  <div *ngIf="errorMessage().length > 0" class="alert alert-danger" style="margin-top: 20px; animation: slideIn 0.3s ease">
-    ❌ {{ errorMessage() }}
-  </div>
+  @if (errorMessage().length > 0) {
+    <div class="alert alert-danger" style="margin-top: 20px; animation: slideIn 0.3s ease">
+      ❌ {{ errorMessage() }}
+    </div>
+  }
 </div>

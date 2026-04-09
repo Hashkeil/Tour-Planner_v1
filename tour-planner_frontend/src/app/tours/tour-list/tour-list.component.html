@@ -42,124 +42,137 @@
     </div>
   </div>
 
-  <div *ngIf="searchQuery()" class="alert alert-info mb-16">
-    Showing results for "{{ searchQuery() }}" — {{ filteredTours().length }} found
-    <button class="btn btn-ghost btn-sm" style="margin-left: 8px" (click)="clearSearch()">
-      Clear ×
-    </button>
-  </div>
+  @if (searchQuery()) {
+    <div class="alert alert-info mb-16">
+      Showing results for "{{ searchQuery() }}" — {{ filteredTours().length }} found
+      <button class="btn btn-ghost btn-sm" style="margin-left: 8px" (click)="clearSearch()">
+        Clear ×
+      </button>
+    </div>
+  }
 
   <!-- Loading State -->
-  <div *ngIf="loading()" class="empty-state">
-    <div class="spinner" style="width: 32px; height: 32px"></div>
-    <div style="margin-top: 12px; font-size: 13px; color: var(--muted)">Loading tours...</div>
-  </div>
+  @if (loading()) {
+    <div class="empty-state">
+      <div class="spinner" style="width: 32px; height: 32px"></div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--muted)">Loading tours...</div>
+    </div>
+  }
 
   <!-- Empty State -->
-  <div *ngIf="!loading() && filteredTours().length === 0" class="empty-state">
-    <div class="empty-icon">🗺️</div>
-    <div class="empty-title">{{ searchQuery() ? 'No tours found' : 'No tours yet' }}</div>
-    <div class="empty-desc">
-      {{ searchQuery() ? 'Try a different search term' : 'Create your first tour to get started' }}
+  @if (!loading() && filteredTours().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🗺️</div>
+      <div class="empty-title">{{ searchQuery() ? 'No tours found' : 'No tours yet' }}</div>
+      <div class="empty-desc">
+        {{ searchQuery() ? 'Try a different search term' : 'Create your first tour to get started' }}
+      </div>
+      <button class="btn btn-primary" style="margin-top: 12px" (click)="openCreate()">+ New Tour</button>
     </div>
-    <button class="btn btn-primary" style="margin-top: 12px" (click)="openCreate()">+ New Tour</button>
-  </div>
+  }
 
-  <div *ngIf="!loading() && filteredTours().length > 0" class="card tours-table-container">
-    <table class="data-table">
-      <thead>
-      <tr>
-        <th>Tour Name</th>
-        <th>Type</th>
-        <th>Route</th>
-        <th>Distance</th>
-        <th>Est. Time</th>
-        <th>Popularity</th>
-        <th>Child-friendly</th>
-        <th>Rating</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let tour of filteredTours()" class="table-row" (click)="goToDetail(tour.id)">
-        <td class="tour-name">
-          <strong>{{ tour.name }}</strong>
-        </td>
-        <td>
+  @if (!loading() && filteredTours().length > 0) {
+    <div class="card tours-table-container">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Tour Name</th>
+          <th>Type</th>
+          <th>Route</th>
+          <th>Distance</th>
+          <th>Est. Time</th>
+          <th>Popularity</th>
+          <th>Child-friendly</th>
+          <th>Rating</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (tour of filteredTours(); track tour.id) {
+          <tr class="table-row" (click)="goToDetail(tour.id)">
+            <td class="tour-name">
+              <strong>{{ tour.name }}</strong>
+            </td>
+            <td>
+                <span class="badge" [class]="'badge-' + tour.transportType.toLowerCase()">
+                  {{ getIcon(tour.transportType) }} {{ capitalizeFirst(tour.transportType) }}
+                </span>
+            </td>
+            <td class="muted small">{{ tour.fromLocation }} → {{ tour.toLocation }}</td>
+            <td>{{ tour.distance ? (tour.distance | number: '1.0-1') + ' km' : '—' }}</td>
+            <td>{{ formatTime(tour.estimatedTime) }}</td>
+            <td>
+                <span class="badge" style="background: rgba(88, 166, 255, 0.15); color: #0969da; font-weight: 600">
+                  {{ tour.popularity }} log{{ tour.popularity !== 1 ? 's' : '' }}
+                </span>
+            </td>
+            <td>
+              <div class="meter-bar">
+                @for (i of [1, 2, 3, 4, 5]; track i) {
+                  <div class="meter-dot" [class.filled]="i <= tour.childFriendliness"></div>
+                }
+              </div>
+            </td>
+            <td>
+              <span class="stars">{{ getStars(tour.averageRating) }}</span>
+            </td>
+            <td>
+              <div class="action-group" (click)="$event.stopPropagation()">
+                <button class="icon-btn" title="Edit" (click)="openEdit(tour)">✏️</button>
+                <button class="icon-btn danger" title="Delete" (click)="deleteWithConfirm(tour)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Tours Cards (Mobile) -->
+  @if (!loading() && filteredTours().length > 0) {
+    <div class="tours-cards-container">
+      @for (tour of filteredTours(); track tour.id) {
+        <div class="tour-card" (click)="goToDetail(tour.id)">
+          <div class="tour-card-header">
+            <div class="tour-card-title">{{ tour.name }}</div>
             <span class="badge" [class]="'badge-' + tour.transportType.toLowerCase()">
-              {{ getIcon(tour.transportType) }} {{ capitalizeFirst(tour.transportType) }}
+              {{ getIcon(tour.transportType) }}
             </span>
-        </td>
-        <td class="muted small">{{ tour.fromLocation }} → {{ tour.toLocation }}</td>
-        <td>{{ tour.distance ? (tour.distance | number: '1.0-1') + ' km' : '—' }}</td>
-        <td>{{ formatTime(tour.estimatedTime) }}</td>
-        <td>
-            <span class="badge" style="background: rgba(88, 166, 255, 0.15); color: #0969da; font-weight: 600">
-              {{ tour.popularity }} log{{ tour.popularity !== 1 ? 's' : '' }}
-            </span>
-        </td>
-        <td>
-          <div class="meter-bar">
-            <div
-              *ngFor="let i of [1, 2, 3, 4, 5]"
-              class="meter-dot"
-              [class.filled]="i <= tour.childFriendliness"
-            ></div>
           </div>
-        </td>
-        <td>
-          <span class="stars">{{ getStars(tour.averageRating) }}</span>
-        </td>
-        <td>
-          <div class="action-group" (click)="$event.stopPropagation()">
+          <div class="tour-card-body">
+            <div class="card-info-row">
+              <span class="info-label">Route:</span>
+              <span class="info-value">{{ tour.fromLocation }} → {{ tour.toLocation }}</span>
+            </div>
+            <div class="card-info-row">
+              <span class="info-label">Distance:</span>
+              <span class="info-value">{{ tour.distance ? (tour.distance | number: '1.0-1') + ' km' : '—' }}</span>
+            </div>
+            <div class="card-info-row">
+              <span class="info-label">Est. Time:</span>
+              <span class="info-value">{{ formatTime(tour.estimatedTime) }}</span>
+            </div>
+            <div class="card-info-row">
+              <span class="info-label">Rating:</span>
+              <span class="info-value">{{ getStars(tour.averageRating) }}</span>
+            </div>
+          </div>
+          <div class="tour-card-footer" (click)="$event.stopPropagation()">
             <button class="icon-btn" title="Edit" (click)="openEdit(tour)">✏️</button>
             <button class="icon-btn danger" title="Delete" (click)="deleteWithConfirm(tour)">🗑️</button>
           </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Tours Cards (Mobile) -->
-  <div *ngIf="!loading() && filteredTours().length > 0" class="tours-cards-container">
-    <div *ngFor="let tour of filteredTours()" class="tour-card" (click)="goToDetail(tour.id)">
-      <div class="tour-card-header">
-        <div class="tour-card-title">{{ tour.name }}</div>
-        <span class="badge" [class]="'badge-' + tour.transportType.toLowerCase()">
-          {{ getIcon(tour.transportType) }}
-        </span>
-      </div>
-      <div class="tour-card-body">
-        <div class="card-info-row">
-          <span class="info-label">Route:</span>
-          <span class="info-value">{{ tour.fromLocation }} → {{ tour.toLocation }}</span>
         </div>
-        <div class="card-info-row">
-          <span class="info-label">Distance:</span>
-          <span class="info-value">{{ tour.distance ? (tour.distance | number: '1.0-1') + ' km' : '—' }}</span>
-        </div>
-        <div class="card-info-row">
-          <span class="info-label">Est. Time:</span>
-          <span class="info-value">{{ formatTime(tour.estimatedTime) }}</span>
-        </div>
-        <div class="card-info-row">
-          <span class="info-label">Rating:</span>
-          <span class="info-value">{{ getStars(tour.averageRating) }}</span>
-        </div>
-      </div>
-      <div class="tour-card-footer" (click)="$event.stopPropagation()">
-        <button class="icon-btn" title="Edit" (click)="openEdit(tour)">✏️</button>
-        <button class="icon-btn danger" title="Delete" (click)="deleteWithConfirm(tour)">🗑️</button>
-      </div>
+      }
     </div>
-  </div>
+  }
 </div>
 
 <!-- Tour Form Modal -->
-<app-tour-form
-  *ngIf="showForm()"
-  [tour]="editingTour()"
-  (close)="closeForm()"
-  (saved)="onTourSaved($event)"
-></app-tour-form>
+@if (showForm()) {
+  <app-tour-form
+    [tour]="editingTour()"
+    (close)="closeForm()"
+    (saved)="onTourSaved($event)"
+  ></app-tour-form>
+}
