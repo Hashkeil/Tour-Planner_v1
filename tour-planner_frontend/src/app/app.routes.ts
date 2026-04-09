@@ -10,8 +10,13 @@ import { TourListComponent } from './tours/tour-list/tour-list.component';
 import { TourDetailComponent } from './tours/tour-detail/tour-detail.component';
 
 export const routes: Routes = [
-  { path: 'register', component: RegisterComponent },
+  // Public routes
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // Protected routes
   {
     path: '',
     component: LayoutComponent,
@@ -25,5 +30,6 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+
+  { path: '**', redirectTo: 'login' }
 ];

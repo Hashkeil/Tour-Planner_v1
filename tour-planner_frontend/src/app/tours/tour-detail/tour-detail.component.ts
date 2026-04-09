@@ -1,19 +1,30 @@
-import { Component, OnInit, signal,computed } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, signal, computed, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { Tour, TourLog } from '../../model/tour.model';
 import { TourService } from '../../services/tour.service';
 import { TourLogService } from '../../services/tour-log.service';
 import { TourFormComponent } from '../tour-form/tour-form.component';
 import { TourLogFormComponent } from './tour-log-form/tour-log-form.component';
+import { TourMapComponent } from './tour-map/tour-map.component';
+
 @Component({
   selector: 'app-tour-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TourFormComponent, TourLogFormComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    TourFormComponent,
+    TourLogFormComponent,
+    TourMapComponent
+  ],
   templateUrl: './tour-detail.component.html',
   styleUrl: './tour-detail.component.css'
 })
 export class TourDetailComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+
   tour = signal<Tour | undefined>(undefined);
   tourLogs = signal<TourLog[]>([]);
   loading = signal(true);
@@ -22,6 +33,11 @@ export class TourDetailComponent implements OnInit {
   showLogForm = signal(false);
   editingLog = signal<TourLog | undefined>(undefined);
   private tourId: number | null = null;
+
+
+  isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -51,8 +67,13 @@ export class TourDetailComponent implements OnInit {
       if (this.tourId !== null) {
         const loadedTour = this.tourService.getTourById(this.tourId);
         this.tour.set(loadedTour);
+
         if (loadedTour) {
           this.tourLogs.set(this.tourLogService.getLogsByTourId(this.tourId));
+
+          // only initialize map in browser
+          if (isPlatformBrowser(this.platformId)) {
+          }
         }
       }
     } catch (err) {
@@ -63,22 +84,24 @@ export class TourDetailComponent implements OnInit {
     }
   }
 
+
+
   getIcon(transportType: string): string {
     const icons: Record<string, string> = {
-      'BIKE': '🚴',
-      'HIKE': '🥾',
-      'RUN': '🏃',
-      'VACATION': '✈️'
+      bike: '🚴',
+      hike: '🥾',
+      run: '🏃',
+      vacation: '✈️'
     };
     return icons[transportType] || '📍';
   }
 
   getIconBg(transportType: string): string {
     const colors: Record<string, string> = {
-      'BIKE': '#FFE5B4',
-      'HIKE': '#B4D7FF',
-      'RUN': '#FFB4D7',
-      'VACATION': '#D7FFB4',
+      bike: '#FFE5B4',
+      hike: '#B4D7FF',
+      run: '#FFB4D7',
+      vacation: '#D7FFB4',
     };
     return colors[transportType] || '#E0E0E0';
   }
@@ -102,12 +125,15 @@ export class TourDetailComponent implements OnInit {
     return '★'.repeat(filled) + '☆'.repeat(5 - filled);
   }
 
-  openEdit(): void {this.showEditForm.set(true);}
-  closeEditForm(): void {this.showEditForm.set(false);}
+  openEdit(): void { this.showEditForm.set(true); }
+  closeEditForm(): void { this.showEditForm.set(false); }
 
   onTourSaved(updatedTour: Tour): void {
     this.tour.set(updatedTour);
     this.closeEditForm();
+
+    if (isPlatformBrowser(this.platformId)) {
+    }
   }
 
   openAddLog(): void {
