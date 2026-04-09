@@ -60,18 +60,10 @@
       <div class="main-content">
         <!-- Map Placeholder -->
         <div class="map-container">
-          <div class="map-placeholder">
-            <div class="map-icon">🗺️</div>
-            <div class="map-title">Route Map</div>
-            <div class="map-desc">
-              From: {{ tour()!.fromLocation }}<br />
-              To: {{ tour()!.toLocation }}<br />
-              Distance: {{ tour()!.distance }} km
-            </div>
-            <div class="map-note">
-              Map integration will be added with Leaflet or Google Maps
-            </div>
-          </div>
+          <app-tour-map
+            [fromLocation]="tour()!.fromLocation"
+            [toLocation]="tour()!.toLocation">
+          </app-tour-map>
         </div>
 
         <!-- Description -->
