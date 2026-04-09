@@ -37,7 +37,6 @@ import { SidebarComponent } from './sidebar/sidebar';
       }
     }
 
-    /* Scrollbar styling */
     .main-content::-webkit-scrollbar {
       width: 8px;
     }

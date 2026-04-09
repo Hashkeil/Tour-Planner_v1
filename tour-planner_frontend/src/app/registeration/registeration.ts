@@ -22,7 +22,6 @@ export class RegisterComponent {
   message = '';
 
   constructor(
-    //bessere aus auf inject-Funktion außerhalb von Konstruktor
     private authService: AuthService,
     private router: Router
   ) {}
@@ -31,7 +30,6 @@ export class RegisterComponent {
 
   onRegister(): void {
 
-    // Prüfen ob alle Felder ausgefüllt sind
     if (!this.username || !this.email || !this.password || !this.confirmPassword) {
       this.message = 'Please fill in all fields.';
       return;
