@@ -2,14 +2,6 @@
 # ============================================================
 # Tour Planner — Azure Infrastructure Setup Script
 # ============================================================
-#
-# Usage:
-#   export DB_ADMIN_PASSWORD="..."
-#   export DB_PASSWORD="..."
-#   export JWT_SECRET="..."
-#   export ORS_API_KEY="..."
-#   bash infra/setup-azure.sh
-# ============================================================
 set -euo pipefail
 
 RESOURCE_GROUP="tour-planner-rg"
