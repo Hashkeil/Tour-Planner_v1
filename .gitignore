@@ -1,0 +1,37 @@
+# Secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Spring Boot application properties (contains DB password, JWT secret, API keys)
+tour-planner_backend/src/main/resources/application.properties
+tour-planner_backend/src/main/resources/application-*.properties
+
+# Java / Maven
+tour-planner_backend/target/
+*.class
+*.jar
+*.war
+
+# Node / Angular
+tour-planner_frontend/node_modules/
+tour-planner_frontend/dist/
+tour-planner_frontend/.angular/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Claude Code internal
+.claude/
