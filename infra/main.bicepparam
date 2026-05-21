@@ -8,7 +8,7 @@
 
 using './main.bicep'
 
-param location       = 'westeurope'
+param location       = 'spaincentral'
 param environment    = 'prod'
 param acrName        = 'tourplannercr'
 param keyVaultName   = 'tour-planner-kv'
