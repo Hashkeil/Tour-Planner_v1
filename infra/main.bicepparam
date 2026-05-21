@@ -1,9 +1,6 @@
 // ============================================================
 // Tour Planner — Bicep Parameter File
 // ============================================================
-// Safe non-secret parameters only.
-// Secrets (dbAdminPassword, dbPassword, jwtSecret, orsApiKey)
-// ============================================================
 
 using './main.bicep'
 
