@@ -7,8 +7,6 @@ import { TourService } from '../../services/tour.service';
 import { TourLogService } from '../../services/tour-log.service';
 import { TourFormComponent } from '../tour-form/tour-form.component';
 import { TourLogFormComponent } from './tour-log-form/tour-log-form.component';
-import { TourMapComponent } from './tour-map/tour-map.component';
-
 @Component({
   selector: 'app-tour-detail',
   standalone: true,
@@ -17,7 +15,6 @@ import { TourMapComponent } from './tour-map/tour-map.component';
     RouterLink,
     TourFormComponent,
     TourLogFormComponent,
-    TourMapComponent
   ],
   templateUrl: './tour-detail.component.html',
   styleUrl: './tour-detail.component.css'
