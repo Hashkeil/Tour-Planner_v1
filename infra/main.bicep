@@ -1,17 +1,6 @@
 // ============================================================
 // Tour Planner — Azure Infrastructure (Bicep IaC)
 // ============================================================
-// Provisions: ACR, Key Vault, PostgreSQL, Container Apps Environment,
-//             Backend Container App, Frontend Container App.
-//
-//
-// Deploy with:
-//   az deployment group create \
-//     --resource-group tour-planner-rg \
-//     --template-file infra/main.bicep \
-//     --parameters @infra/main.bicepparam \
-//     --parameters dbPassword=<secret> jwtSecret=<secret> orsApiKey=<secret>
-// ============================================================
 
 targetScope = 'resourceGroup'
 
