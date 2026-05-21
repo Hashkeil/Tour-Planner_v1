@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
+import com.tourplanner.backend.bl.exception.RouteServiceException;
 @Service
 @RequiredArgsConstructor
 public class RouteService {
@@ -31,12 +30,10 @@ public class RouteService {
                 default        -> "driving-car";
             };
 
-            String url = UriComponentsBuilder
-                    .fromHttpUrl(orsBaseUrl + "/v2/directions/" + profile)
-                    .queryParam("api_key", orsApiKey)
-                    .queryParam("start", from)
-                    .queryParam("end", to)
-                    .toUriString();
+            String url = orsBaseUrl + "/v2/directions/" + profile
+                    + "?api_key=" + orsApiKey
+                    + "&start=" + from
+                    + "&end=" + to;
 
             RestTemplate restTemplate = new RestTemplate();
             String response = restTemplate.getForObject(url, String.class);
@@ -51,7 +48,7 @@ public class RouteService {
 
             return new RouteInfoDto(distanceKm, durationMin, geometry);
         } catch (Exception e) {
-            throw new RouteServiceException("Failed to fetch route: " + e.getMessage());
+            throw new RouteServiceException("Failed to fetch route: " + e.getMessage(), e);
         }
     }
 }
