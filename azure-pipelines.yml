@@ -208,9 +208,12 @@ stages:
                     SPRING_DATASOURCE_URL="jdbc:postgresql://tour-planner-db.postgres.database.azure.com:5432/tourplanner" \
                     SPRING_DATASOURCE_USERNAME="$(DB-USER)" \
                     SPRING_DATASOURCE_PASSWORD="$(DB-PASSWORD)" \
+                    SPRING_JPA_HIBERNATE_DDL_AUTO="update" \
                     APP_JWT_SECRET="$(JWT-SECRET)" \
+                    APP_JWT_EXPIRATION_MS="3600000" \
                     APP_ORS_API_KEY="$(ORS-API-KEY)" \
-                    APP_IMAGES_BASE_PATH="/app/images"
+                    APP_IMAGES_BASE_PATH="/app/images" \
+                    SERVER_PORT="8081"
 
                 echo "Backend deployment complete."
 
