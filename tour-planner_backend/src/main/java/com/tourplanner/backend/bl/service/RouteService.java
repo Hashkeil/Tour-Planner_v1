@@ -4,13 +4,11 @@ import com.tourplanner.backend.bl.dto.RouteInfoDto;
 import com.tourplanner.backend.bl.exception.RouteServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.tourplanner.backend.bl.exception.RouteServiceException;
+
 @Service
-@RequiredArgsConstructor
 public class RouteService {
 
     @Value("${app.ors.base-url}")
@@ -19,7 +17,7 @@ public class RouteService {
     @Value("${app.ors.api-key}")
     private String orsApiKey;
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public RouteInfoDto getRoute(String from, String to, String type) {
         try {
