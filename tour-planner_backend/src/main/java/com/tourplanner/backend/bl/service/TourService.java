@@ -22,7 +22,7 @@ public class TourService {
 
     private final TourRepository tourRepository;
     private final TourLogRepository tourLogRepository;
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<TourDto> getAllTours(Long userId) {
         return tourRepository.findByUserId(userId).stream().map(this::toDto).toList();
