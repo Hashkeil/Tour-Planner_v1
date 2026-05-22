@@ -205,9 +205,11 @@ stages:
                   --resource-group $(RESOURCE_GROUP) \
                   --image         $(ACR_LOGIN_SERVER)/$(BACKEND_IMAGE):$(Build.BuildId) \
                   --set-env-vars \
-                    SPRING_DATASOURCE_URL="jdbc:postgresql://tour-planner-db.postgres.database.azure.com:5432/tourplanner" \
+                    SPRING_DATASOURCE_URL="jdbc:postgresql://tour-planner-db.postgres.database.azure.com:5432/tourplanner?sslmode=require" \
                     SPRING_DATASOURCE_USERNAME="$(DB-USER)" \
                     SPRING_DATASOURCE_PASSWORD="$(DB-PASSWORD)" \
+                    SPRING_DATASOURCE_DRIVER_CLASS_NAME="org.postgresql.Driver" \
+                    SPRING_JPA_DATABASE_PLATFORM="org.hibernate.dialect.PostgreSQLDialect" \
                     SPRING_JPA_HIBERNATE_DDL_AUTO="update" \
                     APP_JWT_SECRET="$(JWT-SECRET)" \
                     APP_JWT_EXPIRATION_MS="3600000" \
