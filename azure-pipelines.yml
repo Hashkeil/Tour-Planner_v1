@@ -218,6 +218,12 @@ stages:
                     APP_IMAGES_BASE_PATH="/app/images" \
                     SERVER_PORT="8081"
 
+                az containerapp ingress update \
+                  --name          tour-planner-backend \
+                  --resource-group $(RESOURCE_GROUP) \
+                  --target-port   8081 \
+                  --type          external
+
                 echo "Backend deployment complete."
 
           - task: AzureCLI@2
