@@ -3,7 +3,10 @@
 <div class="page-content">
   <!-- Header -->
   <div class="page-header">
-    <h1 class="font-display">⚙️ Settings</h1>
+    <h1 class="font-display">
+      <lucide-icon name="settings" [size]="24" style="margin-right:8px;vertical-align:middle"></lucide-icon>
+      Settings
+    </h1>
     <p class="page-subtitle">Manage your preferences and account settings</p>
   </div>
 
@@ -12,7 +15,10 @@
     <!-- Profile Settings Card -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">👤 Profile Settings</h2>
+        <h2 class="card-title">
+          <lucide-icon name="user" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+          Profile Settings
+        </h2>
       </div>
       <div class="card-body">
         <div class="settings-group">
@@ -22,7 +28,7 @@
               type="text"
               class="form-control"
               placeholder="Your username"
-              [(ngModel)]="settings.username"
+              [(ngModel)]="profile.username"
             />
           </label>
         </div>
@@ -33,20 +39,8 @@
             <input
               type="email"
               class="form-control"
-              placeholder="your@email.com"
-              [(ngModel)]="settings.email"
-            />
-          </label>
-        </div>
-
-        <div class="settings-group">
-          <label class="setting-label">
-            <span class="label-text">Full Name</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Your full name"
-              [(ngModel)]="settings.fullName"
+              [ngModel]="profile.email"
+              disabled
             />
           </label>
         </div>
@@ -56,81 +50,94 @@
       </div>
     </div>
 
+    <!-- Change Password Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <lucide-icon name="lock" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+          Change Password
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="settings-group">
+          <label class="setting-label">
+            <span class="label-text">Current Password</span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="*******"
+              [(ngModel)]="passwordForm.currentPassword"
+            />
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <label class="setting-label">
+            <span class="label-text">New Password</span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="*******"
+              [(ngModel)]="passwordForm.newPassword"
+            />
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <label class="setting-label">
+            <span class="label-text">Confirm New Password</span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="*******"
+              [(ngModel)]="passwordForm.confirmNewPassword"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary" (click)="changePassword()">Change Password</button>
+      </div>
+    </div>
+
     <!-- Preferences Card -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">🎨 Preferences</h2>
+        <h2 class="card-title">
+          <lucide-icon name="palette" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+          Preferences
+        </h2>
       </div>
       <div class="card-body">
         <div class="settings-group">
           <label class="setting-label">
             <span class="label-text">Theme</span>
-            <select class="form-control" [(ngModel)]="settings.theme">
-              <option value="light">☀️ Light</option>
-              <option value="dark">🌙 Dark</option>
-              <option value="auto">🔄 Auto</option>
+            <select
+              class="form-control"
+              [ngModel]="themeService.theme()"
+              (ngModelChange)="setTheme($event)"
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="auto">Auto (follow system)</option>
             </select>
           </label>
         </div>
-
-        <div class="settings-group">
-          <label class="setting-label">
-            <span class="label-text">Distance Unit</span>
-            <select class="form-control" [(ngModel)]="settings.distanceUnit">
-              <option value="km">Kilometers (km)</option>
-              <option value="mi">Miles (mi)</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="settings-group">
-          <label class="setting-label">
-            <span class="label-text">Speed Unit</span>
-            <select class="form-control" [(ngModel)]="settings.speedUnit">
-              <option value="kmh">km/h</option>
-              <option value="mph">mph</option>
-              <option value="ms">m/s</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="settings-group">
-          <label class="toggle-label">
-            <input
-              type="checkbox"
-              [(ngModel)]="settings.notifications"
-              class="toggle-input"
-            />
-            <span class="toggle-text">📬 Enable notifications</span>
-          </label>
-        </div>
-
-        <div class="settings-group">
-          <label class="toggle-label">
-            <input
-              type="checkbox"
-              [(ngModel)]="settings.publicProfile"
-              class="toggle-input"
-            />
-            <span class="toggle-text">🌐 Public Profile</span>
-          </label>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button class="btn btn-primary" (click)="savePreferences()">Save Preferences</button>
       </div>
     </div>
   </div>
 
   @if (successMessage().length > 0) {
     <div class="alert alert-success" style="margin-top: 20px; animation: slideIn 0.3s ease">
-      ✅ {{ successMessage() }}
+      <lucide-icon name="circle-check" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
+      {{ successMessage() }}
     </div>
   }
 
   @if (errorMessage().length > 0) {
     <div class="alert alert-danger" style="margin-top: 20px; animation: slideIn 0.3s ease">
-      ❌ {{ errorMessage() }}
+      <lucide-icon name="triangle-alert" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
+      {{ errorMessage() }}
     </div>
   }
 </div>

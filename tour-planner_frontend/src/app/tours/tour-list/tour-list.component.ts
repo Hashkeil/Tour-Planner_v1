@@ -1,28 +1,30 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Tour } from '../../model/tour.model';
 import { TourService } from '../../services/tour.service';
 import { TourFormComponent } from '../tour-form/tour-form.component';
+import { LucideAngularModule } from 'lucide-angular';
 
-/**
- * Features: Search, filter by transport type, create/edit/delete tours, navigate to details
- */
 @Component({
   selector: 'app-tour-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TourFormComponent],
+  imports: [CommonModule, FormsModule, TourFormComponent, LucideAngularModule],
   templateUrl: './tour-list.component.html',
   styleUrl: './tour-list.component.css'
 })
-export class TourListComponent implements OnInit {
-  tours = signal<Tour[]>([]);
+export class TourListComponent {
+  private tourService = inject(TourService);
+  private router = inject(Router);
+
   loading = signal(false);
   searchQuery = signal('');
   activeFilter = signal<string>('all');
   showForm = signal(false);
   editingTour = signal<Tour | undefined>(undefined);
+
+  tours = computed(() => this.tourService.getTours());
 
   filteredTours = computed(() => {
     let result = this.tours();
@@ -46,26 +48,6 @@ export class TourListComponent implements OnInit {
 
     return result;
   });
-
-  constructor(
-    private tourService: TourService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.loadTours();
-  }
-
-  loadTours(): void {
-    this.loading.set(true);
-    try {
-      this.tours.set(this.tourService.getTours());
-    } catch (err) {
-      console.error('Error loading tours:', err);
-    } finally {
-      this.loading.set(false);
-    }
-  }
 
   setFilter(type: string): void {
     this.activeFilter.set(type);
@@ -95,19 +77,14 @@ export class TourListComponent implements OnInit {
   }
 
   onTourSaved(tour: Tour): void {
-    this.loadTours();
     this.closeForm();
   }
 
   deleteWithConfirm(tour: Tour): void {
     if (confirm(`Are you sure you want to delete "${tour.name}"?`)) {
-      try {
-        this.tourService.deleteTour(tour.id);
-        this.loadTours();
-      } catch (err) {
-        console.error('Error deleting tour:', err);
-        alert('Failed to delete tour. Please try again.');
-      }
+      this.tourService.deleteTour(tour.id).subscribe({
+        error: () => alert('Failed to delete tour. Please try again.')
+      });
     }
   }
 
@@ -117,12 +94,12 @@ export class TourListComponent implements OnInit {
 
   getIcon(transportType: string): string {
     const icons: Record<string, string> = {
-      'bike': '🚴',
-      'run': '🏃',
-      'hike': '🥾',
-      'vacation': '✈️'
+      'bike': 'bike',
+      'run': 'footprints',
+      'hike': 'mountain',
+      'vacation': 'plane'
     };
-    return icons[transportType.toLowerCase()] || '🗺️';
+    return icons[transportType.toLowerCase()] || 'map-pin';
   }
 
   capitalizeFirst(text: string): string {

@@ -45,7 +45,9 @@
             <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="*******">
           </div>
 
-          <button type="submit" class="btn-register">Create Account</button>
+          <button type="submit" class="btn-register" [disabled]="loading">
+            {{ loading ? 'Creating Account...' : 'Create Account' }}
+          </button>
         </form>
 
         @if (message) {

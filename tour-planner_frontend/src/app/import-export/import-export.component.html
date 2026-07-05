@@ -3,9 +3,10 @@
 <div class="page-content">
   <div class="page-header">
     <div>
-      <h1>Import & Export</h1>
+      <h1>Import &amp; Export</h1>
       <p class="page-subtitle">Manage your tour data</p>
-    </div></div>
+    </div>
+  </div>
 
   <!-- Export Section -->
   <div class="card mb-16">
@@ -13,17 +14,10 @@
       <h2 class="card-title">Export Tours</h2>
     </div>
     <div class="card-body">
-      <p class="small muted">Download your tours in different formats</p>
+      <p class="small muted">Download your tours as a spreadsheet</p>
       <div class="export-options">
-        <button class="export-btn" (click)="exportJSON()">
-          <span class="export-icon">📄</span>
-          <div class="export-info">
-            <div class="export-title">Export as JSON</div>
-            <div class="export-desc">Full data format</div>
-          </div>
-        </button>
         <button class="export-btn" (click)="exportCSV()">
-          <span class="export-icon">📊</span>
+          <span class="export-icon"><lucide-icon name="table-2" [size]="28"></lucide-icon></span>
           <div class="export-info">
             <div class="export-title">Export as CSV</div>
             <div class="export-desc">Spreadsheet format</div>
@@ -39,18 +33,18 @@
       <h2 class="card-title">Import Tours</h2>
     </div>
     <div class="card-body">
-      <p class="small muted">Upload tour data from JSON or CSV files</p>
+      <p class="small muted">Upload tour data from a CSV file</p>
 
       <!-- Alert Messages -->
       @if (successMessage) {
         <div class="alert alert-success">
-          <span>✓</span>
+          <lucide-icon name="check" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
           <span>{{ successMessage }}</span>
         </div>
       }
       @if (errorMessage) {
         <div class="alert alert-danger">
-          <span>✕</span>
+          <lucide-icon name="x" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
           <span>{{ errorMessage }}</span>
         </div>
       }
@@ -66,14 +60,14 @@
         <input
           #fileInput
           type="file"
-          accept=".json,.csv"
+          accept=".csv"
           (change)="onFileSelected($event)"
           style="display: none"
         />
         <div class="upload-content">
-          <span class="upload-icon">📁</span>
+          <span class="upload-icon"><lucide-icon name="folder-open" [size]="40"></lucide-icon></span>
           <div class="upload-text">
-            <div class="upload-title">Drag & drop your file here</div>
+            <div class="upload-title">Drag &amp; drop your file here</div>
             <div class="upload-desc">or <a href="javascript:void(0)" (click)="fileInput.click()">browse</a></div>
           </div>
         </div>
@@ -81,14 +75,14 @@
 
       <!-- Supported Formats Info -->
       <div class="info-box">
-        <strong>Supported formats:</strong> JSON (.json) and CSV (.csv) files. CSV must include columns: name, distance, route, difficulty, estTime.
+        <strong>Supported format:</strong> CSV (.csv) files. Must include columns: name, distance, route, difficulty, estTime.
       </div>
 
       <!-- File Preview -->
       @if (selectedFile) {
         <div class="file-preview">
           <div class="file-info">
-            <span class="file-icon">✓</span>
+            <span class="file-icon"><lucide-icon name="check" [size]="16"></lucide-icon></span>
             <div>
               <div class="file-name">{{ selectedFile.name }}</div>
               <div class="file-size">{{ (selectedFile.size / 1024).toFixed(2) }} KB</div>

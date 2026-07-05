@@ -19,14 +19,14 @@
   font-size: 28px;
   font-weight: 800;
   margin: 0 0 8px 0;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   font-family: 'Syne', sans-serif;
 }
 
 .page-subtitle {
   margin: 0;
   font-size: 14px;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
 }
 
 .btn {
@@ -41,13 +41,13 @@
 }
 
 .btn-primary {
-  background: #58a6ff;
+  background: #00798c;
   color: white;
   white-space: nowrap;
 }
 
 .btn-primary:hover {
-  background: #3d8ff0;
+  background: #003d5b;
 }
 
 .btn-sm {
@@ -65,8 +65,8 @@
 }
 
 .metric-card {
-  background: white;
-  border: 1px solid rgba(88, 166, 255, 0.15);
+  background: var(--card);
+  border: 1px solid rgba(0, 121, 140, 0.15);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -78,7 +78,7 @@
 
 .metric-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: rgba(88, 166, 255, 0.3);
+  border-color: rgba(0, 121, 140, 0.3);
 }
 
 .metric-icon {
@@ -88,7 +88,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(88, 166, 255, 0.1);
+  background: rgba(0, 121, 140, 0.1);
   border-radius: 8px;
   flex-shrink: 0;
 }
@@ -103,7 +103,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
   margin-bottom: 6px;
   white-space: nowrap;
 }
@@ -111,14 +111,14 @@
 .metric-value {
   font-size: 26px;
   font-weight: 800;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   line-height: 1;
 }
 
 .metric-value .unit {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
   margin-left: 4px;
 }
 
@@ -131,8 +131,8 @@
 
 /* Card Styles */
 .card {
-  background: white;
-  border: 1px solid rgba(88, 166, 255, 0.15);
+  background: var(--card);
+  border: 1px solid rgba(0, 121, 140, 0.15);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -143,19 +143,19 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(88, 166, 255, 0.1);
-  background: linear-gradient(90deg, rgba(88, 166, 255, 0.04) 0%, rgba(63, 185, 80, 0.04) 100%);
+  border-bottom: 1px solid rgba(0, 121, 140, 0.1);
+  background: linear-gradient(90deg, rgba(0, 121, 140, 0.04) 0%, rgba(0, 121, 140, 0.04) 100%);
 }
 
 .card-title {
   font-size: 15px;
   font-weight: 700;
   margin: 0;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
 }
 
 .link {
-  color: #58a6ff;
+  color: #00798c;
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
@@ -164,7 +164,7 @@
 }
 
 .link:hover {
-  color: #3d8ff0;
+  color: #003d5b;
   border-bottom-color: currentColor;
 }
 
@@ -172,7 +172,7 @@
   font-size: 12px;
   font-weight: 600;
   color: rgba(26, 26, 26, 0.5);
-  background: rgba(88, 166, 255, 0.1);
+  background: rgba(0, 121, 140, 0.1);
   padding: 2px 8px;
   border-radius: 12px;
 }
@@ -195,13 +195,13 @@
 .empty-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   margin-bottom: 4px;
 }
 
 .empty-desc {
   font-size: 12px;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
 }
 
 /* Tours List */
@@ -216,25 +216,25 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: rgba(88, 166, 255, 0.02);
-  border: 1px solid rgba(88, 166, 255, 0.1);
+  background: rgba(0, 121, 140, 0.02);
+  border: 1px solid rgba(0, 121, 140, 0.1);
   border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .tour-item:hover {
-  background: rgba(88, 166, 255, 0.08);
-  border-color: rgba(88, 166, 255, 0.3);
+  background: rgba(0, 121, 140, 0.08);
+  border-color: rgba(0, 121, 140, 0.3);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 121, 140, 0.1);
 }
 
 .tour-thumb {
   width: 52px;
   height: 52px;
   border-radius: 8px;
-  background: rgba(88, 166, 255, 0.08);
+  background: rgba(0, 121, 140, 0.08);
   flex-shrink: 0;
   overflow: hidden;
   display: flex;
@@ -268,7 +268,7 @@
 .tour-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -286,7 +286,7 @@
 
 .tour-details {
   font-size: 11px;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
   margin: 0;
   font-weight: 500;
 }
@@ -312,8 +312,8 @@
   white-space: nowrap;
 }
 
-.badge-bike   { background: rgba(88, 166, 255, 0.12); color: #1a72d4; }
-.badge-hike   { background: rgba(63, 185, 80, 0.12);  color: #2a8a3e; }
+.badge-bike   { background: rgba(0, 121, 140, 0.12); color: #1a72d4; }
+.badge-hike   { background: rgba(0, 121, 140, 0.12);  color: #2a8a3e; }
 .badge-run    { background: rgba(255, 140, 0, 0.12);  color: #b85c00; }
 .badge-vacation { background: rgba(160, 100, 255, 0.12); color: #7030c0; }
 
@@ -329,16 +329,16 @@
   gap: 10px;
   align-items: flex-start;
   padding: 12px;
-  background: rgba(88, 166, 255, 0.02);
-  border: 1px solid rgba(88, 166, 255, 0.1);
+  background: rgba(0, 121, 140, 0.02);
+  border: 1px solid rgba(0, 121, 140, 0.1);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .log-item:hover {
-  background: rgba(88, 166, 255, 0.07);
-  border-color: rgba(88, 166, 255, 0.25);
+  background: rgba(0, 121, 140, 0.07);
+  border-color: rgba(0, 121, 140, 0.25);
 }
 
 .log-icon {
@@ -355,7 +355,7 @@
 .log-tour-name {
   font-size: 12px;
   font-weight: 700;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   margin: 0 0 2px 0;
   white-space: nowrap;
   overflow: hidden;

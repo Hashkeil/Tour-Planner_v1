@@ -1,20 +1,32 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { TourService } from '../services/tour.service';
 import { TourLogService } from '../services/tour-log.service';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private tourService = inject(TourService);
   private tourLogService = inject(TourLogService);
   private router = inject(Router);
+
+  constructor() {
+    effect(() => {
+      const tours = this.tourService.getTours();
+      if (tours.length > 0) {
+        untracked(() => tours.forEach(t => this.tourLogService.loadLogsForTour(t.id).subscribe()));
+      }
+    });
+  }
+
+  ngOnInit(): void {}
 
   tours = computed(() => this.tourService.getTours());
   recentTours = computed(() => this.tours().slice(0, 6));
@@ -54,12 +66,12 @@ export class DashboardComponent {
 
   getIcon(type: string): string {
     const icons: Record<string, string> = {
-      bike: '🚴',
-      hike: '🥾',
-      run: '🏃',
-      vacation: '✈️'
+      bike: 'bike',
+      hike: 'mountain',
+      run: 'footprints',
+      vacation: 'plane'
     };
-    return icons[type] ?? '🗺️';
+    return icons[type] ?? 'map-pin';
   }
 
   formatTime(minutes: number): string {

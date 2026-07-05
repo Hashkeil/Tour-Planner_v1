@@ -4,7 +4,8 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">
-        {{ log ? '✏️ Edit Log' : '📋 New Tour Log' }}
+        <lucide-icon [name]="log ? 'pencil' : 'clipboard-list'" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+        {{ log ? 'Edit Log' : 'New Tour Log' }}
       </div>
       <button class="close-btn" (click)="close.emit()">×</button>
     </div>
@@ -129,7 +130,8 @@
 
       <!-- Info Box -->
       <div class="info-box">
-        ℹ️ Record all details of your tour experience. This helps you track your progress and fitness.
+        <lucide-icon name="info" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
+        Record all details of your tour experience. This helps you track your progress and fitness.
       </div>
     </div>
 

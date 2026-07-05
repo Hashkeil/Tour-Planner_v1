@@ -1,28 +1,33 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LucideAngularModule } from 'lucide-angular';
+import { AuthService } from '../services/auth.service';
+import { Theme, ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent {
+  private authService = inject(AuthService);
+  themeService = inject(ThemeService);
 
   successMessage = signal<string>('');
   errorMessage = signal<string>('');
 
-  settings = {
-    username: 'Admin_admin',
-    email: 'admin@example.com',
-    fullName: 'Admin admin',
-    theme: 'light',
-    distanceUnit: 'km',
-    speedUnit: 'kmh',
-    notifications: true,
-    publicProfile: false
+  profile = {
+    username: this.authService.getCurrentUser()?.username ?? '',
+    email: this.authService.getCurrentUser()?.email ?? ''
+  };
+
+  passwordForm = {
+    currentPassword: '',
+    newPassword: '',
+    confirmNewPassword: ''
   };
 
   private clearMessages(delay = 3000): void {
@@ -32,46 +37,60 @@ export class SettingsComponent {
     }, delay);
   }
 
+  setTheme(theme: Theme): void {
+    this.themeService.setTheme(theme);
+  }
+
   saveProfile(): void {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(this.settings.email)) {
-      this.errorMessage.set('Please enter a valid email address');
-      this.clearMessages();
-      return;
-    }
-
-    if (!this.settings.username || this.settings.username.trim().length < 3) {
+    if (!this.profile.username || this.profile.username.trim().length < 3) {
       this.errorMessage.set('Username must be at least 3 characters');
       this.clearMessages();
       return;
     }
 
-    this.successMessage.set('Profile settings saved successfully!');
-    this.clearMessages();
-  }
-
-  savePreferences(): void {
-    this.successMessage.set('Preferences saved successfully!');
-    this.clearMessages();
+    this.authService.updateProfile(this.profile.username.trim()).subscribe({
+      next: () => {
+        this.successMessage.set('Profile settings saved successfully!');
+        this.clearMessages();
+      },
+      error: () => {
+        this.errorMessage.set('Failed to save profile. Please try again.');
+        this.clearMessages();
+      }
+    });
   }
 
   changePassword(): void {
-    this.successMessage.set('Password changed successfully!');
-    this.clearMessages();
-  }
+    const { currentPassword, newPassword, confirmNewPassword } = this.passwordForm;
 
-  resetData(): void {
-    if (confirm('Are you sure? All your tours and logs will be deleted permanently.')) {
-      this.successMessage.set('All data has been reset!');
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      this.errorMessage.set('Please fill in all password fields');
       this.clearMessages();
+      return;
     }
-  }
 
-  deleteAccount(): void {
-    if (confirm('This action cannot be undone. Type "DELETE" to confirm.')) {
-      this.successMessage.set('Account deleted successfully!');
+    if (newPassword.length < 6) {
+      this.errorMessage.set('New password must be at least 6 characters');
       this.clearMessages();
+      return;
     }
+
+    if (newPassword !== confirmNewPassword) {
+      this.errorMessage.set('New passwords do not match');
+      this.clearMessages();
+      return;
+    }
+
+    this.authService.changePassword(currentPassword, newPassword).subscribe({
+      next: () => {
+        this.passwordForm = { currentPassword: '', newPassword: '', confirmNewPassword: '' };
+        this.successMessage.set('Password changed successfully!');
+        this.clearMessages();
+      },
+      error: () => {
+        this.errorMessage.set('Current password is incorrect.');
+        this.clearMessages();
+      }
+    });
   }
 }

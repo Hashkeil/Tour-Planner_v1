@@ -35,6 +35,7 @@
     "@bluehalo/ngx-leaflet": "^21.2.0",
     "express": "^5.1.0",
     "leaflet": "^1.9.4",
+    "lucide-angular": "^1.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

@@ -1,6 +1,5 @@
 package com.tourplanner.backend.bl.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tourplanner.backend.bl.dto.TourCreateDto;
 import com.tourplanner.backend.bl.dto.TourDto;
 import com.tourplanner.backend.bl.dto.TourUpdateDto;
@@ -25,7 +24,6 @@ public class TourService {
 
     private final TourRepository tourRepository;
     private final TourLogRepository tourLogRepository;
-    private final ObjectMapper objectMapper;
 
     public List<TourDto> getAllTours(Long userId) {
         return tourRepository.findByUserId(userId).stream().map(this::toDto).toList();
@@ -76,16 +74,6 @@ public class TourService {
 
     public List<TourDto> searchTours(String q, Long userId) {
         return tourRepository.searchByUserIdAndQuery(userId, q).stream().map(this::toDto).toList();
-    }
-
-    public String exportToJson(Long userId) {
-        try {
-            log.info("Exporting tours for user {}", userId);
-            return objectMapper.writeValueAsString(getAllTours(userId));
-        } catch (Exception e) {
-            log.error("Export failed for user {}: {}", userId, e.getMessage(), e);
-            throw new RuntimeException("Export failed", e);
-        }
     }
 
     public int importTours(List<TourCreateDto> dtos, Long userId, UserEntity user) {

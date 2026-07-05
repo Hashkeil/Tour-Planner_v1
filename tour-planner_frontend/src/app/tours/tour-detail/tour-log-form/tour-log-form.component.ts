@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TourLog } from '../../../model/tour.model';
 import { TourLogService } from '../../../services/tour-log.service';
-
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-tour-log-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './tour-log-form.component.html',
   styleUrl: './tour-log-form.component.css'
 })
@@ -116,23 +116,20 @@ export class TourLogFormComponent implements OnInit {
         : this.formData.dateTime
     };
 
-    setTimeout(() => {
-      try {
-        let savedLog: TourLog;
+    const operation = this.log
+      ? this.tourLogService.updateLog(this.log.id, payload)
+      : this.tourLogService.createLog(payload);
 
-        if (this.log) {
-          savedLog = this.tourLogService.updateLog(this.log.id, payload) || payload;
-        } else {
-          savedLog = this.tourLogService.createLog(payload);
-        }
-
+    operation.subscribe({
+      next: (savedLog) => {
         this.saved.emit(savedLog);
         this.saving.set(false);
-      } catch (err: any) {
-        this.error.set(err.message || 'Failed to save log');
+      },
+      error: (err) => {
+        this.error.set(err.error?.error ?? err.error?.message ?? 'Failed to save log');
         this.saving.set(false);
       }
-    }, 600);
+    });
   }
 
   onOverlayClick(event: MouseEvent): void {

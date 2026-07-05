@@ -19,7 +19,7 @@ import { SidebarComponent } from './sidebar/sidebar';
       display: flex;
       width: 100%;
       height: 100vh;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 1) 100%);
+      background: var(--bg-body);
     }
 
     .main-content {
@@ -27,8 +27,8 @@ import { SidebarComponent } from './sidebar/sidebar';
       margin-left: 260px;
       overflow-y: auto;
       overflow-x: hidden;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 1) 100%);
-      transition: margin-left 0.3s ease;
+      background: var(--bg-body);
+      transition: margin-left 0.3s ease, background 0.2s ease;
     }
 
     @media (max-width: 768px) {

@@ -7,9 +7,7 @@ import com.tourplanner.backend.bl.service.TourService;
 import com.tourplanner.backend.dal.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
@@ -60,15 +58,6 @@ public class TourController {
     @GetMapping("/search")
     public ResponseEntity<List<TourDto>> search(@RequestParam String q, Authentication auth) {
         return ResponseEntity.ok(tourService.searchTours(q, currentUser(auth).getId()));
-    }
-
-    @GetMapping("/export")
-    public ResponseEntity<String> export(Authentication auth) {
-        String json = tourService.exportToJson(currentUser(auth).getId());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"tours.json\"")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(json);
     }
 
     @PostMapping("/import")

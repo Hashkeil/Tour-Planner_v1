@@ -1,15 +1,16 @@
-// CORRECTED FILE — all 3 bugs fixed (see comments below)
 import { Component, Input, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Tour } from '../../model/tour.model';
 import { TourService } from '../../services/tour.service';
-
+import { LucideAngularModule } from 'lucide-angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-tour-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './tour-form.component.html',
   styleUrl: './tour-form.component.css'
 })
@@ -19,6 +20,7 @@ export class TourFormComponent implements OnInit {
   @Output() saved = new EventEmitter<Tour>();
 
   private tourService = inject(TourService);
+  private http = inject(HttpClient);
 
   // State
   formData: any = {};
@@ -123,17 +125,38 @@ export class TourFormComponent implements OnInit {
     this.fetchingRoute.set(true);
     this.error.set('');
 
-    setTimeout(() => {
-      const distance = Math.random() * 100 + 5;
-      const estimatedTime = Math.round(distance * 8 + Math.random() * 60);
+    const orsType = this.toOrsType(this.formData.transportType);
+    const params = new HttpParams()
+      .set('from', this.formData.fromLocation)
+      .set('to', this.formData.toLocation)
+      .set('type', orsType);
 
-      this.formData.distance = parseFloat(distance.toFixed(1));
-      this.formData.estimatedTime = estimatedTime;
-      this.routeFetched.set(true);
-      this.fetchingRoute.set(false);
+    this.http.get<{ distanceKm: number; durationMin: number; geometry: string }>(
+      `${environment.apiUrl}/route`, { params }
+    ).subscribe({
+      next: (result) => {
+        this.formData.distance = parseFloat(result.distanceKm.toFixed(1));
+        this.formData.estimatedTime = Math.round(result.durationMin);
+        this.formData.routeGeometry = result.geometry;
+        this.routeFetched.set(true);
+        this.fetchingRoute.set(false);
+        setTimeout(() => this.routeFetched.set(false), 4000);
+      },
+      error: (err) => {
+        this.error.set(err.error?.error ?? err.error?.message ?? 'Could not fetch route. Check the location names and try again.');
+        this.fetchingRoute.set(false);
+      }
+    });
+  }
 
-      setTimeout(() => this.routeFetched.set(false), 3000);
-    }, 1000);
+  private toOrsType(transportType: string): string {
+    const map: Record<string, string> = {
+      bike: 'bicycle',
+      hike: 'foot',
+      run: 'foot',
+      vacation: 'car'
+    };
+    return map[transportType] ?? 'foot';
   }
 
   onImageSelected(event: Event): void {
@@ -177,23 +200,20 @@ export class TourFormComponent implements OnInit {
     this.saving.set(true);
     this.error.set('');
 
-    setTimeout(() => {
-      try {
-        let savedTour: Tour;
+    const operation = this.tour
+      ? this.tourService.updateTour(this.tour.id, this.formData)
+      : this.tourService.createTour(this.formData);
 
-        if (this.tour) {
-          savedTour = this.tourService.updateTour(this.tour.id, this.formData) || this.formData;
-        } else {
-          savedTour = this.tourService.createTour(this.formData);
-        }
-
+    operation.subscribe({
+      next: (savedTour) => {
         this.saved.emit(savedTour);
         this.saving.set(false);
-      } catch (err: any) {
-        this.error.set(err.message || 'Failed to save tour');
+      },
+      error: (err) => {
+        this.error.set(err.error?.error ?? err.error?.message ?? 'Failed to save tour');
         this.saving.set(false);
       }
-    }, 800);
+    });
   }
 
   onOverlayClick(event: MouseEvent): void {

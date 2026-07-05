@@ -2,12 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TourService } from '../services/tour.service';
 import { Tour } from '../model/tour.model';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-import-export',
   templateUrl: './import-export.component.html',
   styleUrls: ['./import-export.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, LucideAngularModule]
 })
 export class ImportExportComponent implements OnInit {
   private tourService = inject(TourService);
@@ -19,15 +20,6 @@ export class ImportExportComponent implements OnInit {
   errorMessage = '';
 
   ngOnInit(): void {}
-
-  exportJSON(): void {
-    try {
-      const json = this.tourService.exportToursAsJSON();
-      this.downloadFile(json, 'tours.json', 'application/json');
-    } catch {
-      this.errorMessage = 'Failed to export tours';
-    }
-  }
 
   exportCSV(): void {
     try {
@@ -69,13 +61,8 @@ export class ImportExportComponent implements OnInit {
   validateFile(): void {
     if (!this.selectedFile) return;
 
-    const validExtensions = ['.json', '.csv'];
-    const hasValidExtension = validExtensions.some(ext =>
-      this.selectedFile!.name.toLowerCase().endsWith(ext)
-    );
-
-    if (!hasValidExtension) {
-      this.errorMessage = 'Invalid file type. Please select JSON or CSV.';
+    if (!this.selectedFile.name.toLowerCase().endsWith('.csv')) {
+      this.errorMessage = 'Invalid file type. Please select a CSV file.';
       this.selectedFile = null;
       return;
     }
@@ -101,33 +88,22 @@ export class ImportExportComponent implements OnInit {
     reader.onload = (e) => {
       try {
         const content = e.target?.result as string;
-        const isCSV = this.selectedFile!.name.toLowerCase().endsWith('.csv');
+        const tours = this.parseCSV(content);
 
-        let tours: Tour[];
-
-        if (isCSV) {
-          tours = this.parseCSV(content);
-        } else {
-          const parsed = JSON.parse(content);
-          if (!Array.isArray(parsed)) {
-            throw new Error('Invalid format: expected array of tours');
+        this.tourService.importToursFromJSON(JSON.stringify(tours)).subscribe({
+          next: (count) => {
+            this.successMessage = `Successfully imported ${count} tours`;
+            this.selectedFile = null;
+            this.isLoading = false;
+            setTimeout(() => (this.successMessage = ''), 5000);
+          },
+          error: (err) => {
+            this.errorMessage = err.error?.error ?? 'Import failed: invalid tour data';
+            this.isLoading = false;
           }
-          tours = parsed;
-        }
-
-        // Use the service's importToursFromJSON by serializing to JSON string
-        const success = this.tourService.importToursFromJSON(JSON.stringify(tours));
-
-        if (success) {
-          this.successMessage = `Successfully imported ${tours.length} tours`;
-          this.selectedFile = null;
-          setTimeout(() => (this.successMessage = ''), 5000);
-        } else {
-          this.errorMessage = 'Import failed: invalid tour data or all tours already exist';
-        }
+        });
       } catch (err) {
         this.errorMessage = err instanceof Error ? err.message : 'Invalid file format';
-      } finally {
         this.isLoading = false;
       }
     };

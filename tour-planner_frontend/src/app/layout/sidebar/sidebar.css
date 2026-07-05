@@ -1,16 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=DM+Sans:wght@400;500;600&display=swap');
-
 /* ── Variables ──────────────────────────────────────── */
 :host {
   --sb-width:       256px;
   --sb-width-col:    68px;
-  --sb-bg:          #0f1117;
-  --sb-border:      rgba(255,255,255,0.07);
-  --sb-accent:      #3a5cf5;
-  --sb-accent-2:    #6c47ff;
-  --sb-active-bg:   rgba(58,92,245,0.15);
-  --sb-active-text: #7da4ff;
-  --sb-hover-bg:    rgba(255,255,255,0.06);
+  --sb-bg:          #003d5b;
+  --sb-border:      rgba(255,255,255,0.09);
+  --sb-accent:      #edae49;
+  --sb-accent-2:    #00798c;
+  --sb-active-bg:   rgba(237,174,73,0.18);
+  --sb-active-text: #f5cb85;
+  --sb-hover-bg:    rgba(0,121,140,0.18);
   --sb-text:        rgba(255,255,255,0.95);
   --sb-text-active: rgba(255,255,255,0.95);
   --sb-label:       rgba(255,255,255,0.50);
@@ -53,8 +51,8 @@
 
   /* subtle noise texture overlay */
   background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(58,92,245,0.12) 0%, transparent 70%),
-    linear-gradient(180deg, #0f1117 0%, #0c0e14 100%);
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(237,174,73,0.16) 0%, transparent 70%),
+    linear-gradient(180deg, #003d5b 0%, #002a3f 100%);
 }
 
 .sidebar.collapsed {
@@ -103,12 +101,50 @@
 }
 
 .logo-text {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 15px;
   color: rgba(255,255,255,0.9);
   white-space: nowrap;
   letter-spacing: -0.01em;
+}
+
+/* User greeting */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--sb-border);
+  overflow: hidden;
+  transition: opacity var(--sb-transition);
+}
+
+.sidebar-user.hidden {
+  padding-left: 0;
+  padding-right: 0;
+  justify-content: center;
+}
+
+.sidebar-user .user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sb-accent-2);
+  flex-shrink: 0;
+}
+
+.sidebar-user .user-greeting {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sb-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user.hidden .user-greeting {
+  display: none;
 }
 
 /* Toggle button */
@@ -185,7 +221,7 @@
   left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
-  background: #1e2130;
+  background: #00304a;
   color: rgba(255,255,255,0.9);
   font-size: 12px;
   font-weight: 500;
@@ -206,7 +242,7 @@
   top: 50%;
   transform: translateY(-50%);
   border: 5px solid transparent;
-  border-right-color: #1e2130;
+  border-right-color: #00304a;
   pointer-events: none;
   z-index: 9999;
 }
@@ -287,11 +323,11 @@
 
 /* Logout styling */
 .logout-btn {
-  color: rgba(255,100,100,0.55);
+  color: rgba(209,73,91,0.7);
 }
 .logout-btn:hover {
-  background: rgba(232,59,90,0.1);
-  color: rgba(255,100,100,0.9);
+  background: rgba(209,73,91,0.15);
+  color: #d1495b;
 }
 
 /* Divider */

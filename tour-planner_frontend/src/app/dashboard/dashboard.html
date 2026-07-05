@@ -10,7 +10,7 @@
   <!-- Metrics Cards -->
   <div class="metrics-grid">
     <div class="metric-card">
-      <div class="metric-icon">🗺️</div>
+      <div class="metric-icon"><lucide-icon name="map" [size]="24"></lucide-icon></div>
       <div class="metric-content">
         <div class="metric-label">Total Tours</div>
         <div class="metric-value">{{ totalTours() }}</div>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="metric-card">
-      <div class="metric-icon">📋</div>
+      <div class="metric-icon"><lucide-icon name="clipboard-list" [size]="24"></lucide-icon></div>
       <div class="metric-content">
         <div class="metric-label">Total Logs</div>
         <div class="metric-value">{{ totalLogs() }}</div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="metric-card">
-      <div class="metric-icon">📏</div>
+      <div class="metric-icon"><lucide-icon name="ruler" [size]="24"></lucide-icon></div>
       <div class="metric-content">
         <div class="metric-label">Total Distance</div>
         <div class="metric-value">{{ totalDistance() }}<span class="unit">km</span></div>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="metric-card">
-      <div class="metric-icon">⏱️</div>
+      <div class="metric-icon"><lucide-icon name="timer" [size]="24"></lucide-icon></div>
       <div class="metric-content">
         <div class="metric-label">Total Time</div>
         <div class="metric-value">{{ totalDuration() }}<span class="unit">h</span></div>
@@ -47,13 +47,16 @@
     <!-- Recent Tours -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">📍 Recent Tours</h2>
+        <h2 class="card-title">
+          <lucide-icon name="map-pin" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+          Recent Tours
+        </h2>
         <a routerLink="/tours" class="link">View all</a>
       </div>
       <div class="card-body">
         @if (recentTours().length === 0) {
         <div class="empty-state">
-          <div class="empty-icon">🗺️</div>
+          <div class="empty-icon"><lucide-icon name="map" [size]="40"></lucide-icon></div>
           <div class="empty-title">No tours yet</div>
           <div class="empty-desc">Create your first tour to get started</div>
           <button class="btn btn-primary btn-sm" (click)="goToNewTour()">+ New Tour</button>
@@ -66,14 +69,18 @@
               @if (tour.image) {
               <img [src]="tour.image" [alt]="tour.name">
               } @else {
-              <span class="tour-thumb-icon">{{ getIcon(tour.transportType) }}</span>
+              <span class="tour-thumb-icon">
+                <lucide-icon [name]="getIcon(tour.transportType)" [size]="20"></lucide-icon>
+              </span>
               }
             </div>
             <div class="tour-info">
               <div class="tour-top">
                 <h4 class="tour-name">{{ tour.name }}</h4>
-                <span class="tour-badge badge-{{ tour.transportType }}">{{ getIcon(tour.transportType) }} {{
-                  tour.transportType }}</span>
+                <span class="tour-badge badge-{{ tour.transportType }}">
+                  <lucide-icon [name]="getIcon(tour.transportType)" [size]="12"></lucide-icon>
+                  {{ tour.transportType }}
+                </span>
               </div>
               <p class="tour-meta">{{ tour.fromLocation }} → {{ tour.toLocation }}</p>
               <p class="tour-details">{{ tour.distance }} km &nbsp;·&nbsp; {{ formatTime(tour.estimatedTime) }}</p>
@@ -93,7 +100,10 @@
     <!-- Recent Tour Logs -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">📋 Recent Logs</h2>
+        <h2 class="card-title">
+          <lucide-icon name="clipboard-list" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+          Recent Logs
+        </h2>
         @if (totalLogs() > 0) {
         <span class="log-count">{{ totalLogs() }} total</span>
         }
@@ -101,7 +111,7 @@
       <div class="card-body">
         @if (recentLogs().length === 0) {
         <div class="empty-state">
-          <div class="empty-icon">📋</div>
+          <div class="empty-icon"><lucide-icon name="clipboard-list" [size]="40"></lucide-icon></div>
           <div class="empty-title">No logs yet</div>
           <div class="empty-desc">Open a tour and add your first log entry</div>
         </div>
@@ -109,13 +119,15 @@
         <div class="log-list">
           @for (log of recentLogs(); track log.id) {
           <div class="log-item" (click)="goToTour(log.tourId)">
-            <div class="log-icon">📅</div>
+            <div class="log-icon"><lucide-icon name="calendar-days" [size]="18"></lucide-icon></div>
             <div class="log-content">
               <p class="log-tour-name">{{ log.tourName }}</p>
               <p class="log-meta">{{ formatDate(log.dateTime) }} &nbsp;·&nbsp; {{ log.distance }} km &nbsp;·&nbsp; {{
                 formatTime(log.totalTime) }}</p>
               <div class="log-badges">
-                <span class="log-badge difficulty">⚡ Diff: {{ log.difficulty }}/5</span>
+                <span class="log-badge difficulty">
+                  <lucide-icon name="zap" [size]="11"></lucide-icon> Diff: {{ log.difficulty }}/5
+                </span>
                 <span class="log-badge rating">★ {{ log.rating }}/5</span>
               </div>
               @if (log.comment) {

@@ -4,7 +4,8 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">
-        {{ tour ? '✏️ Edit Tour' : '🗺️ Create New Tour' }}
+        <lucide-icon [name]="tour ? 'pencil' : 'map-pin'" [size]="16" style="margin-right:6px;vertical-align:middle"></lucide-icon>
+        {{ tour ? 'Edit Tour' : 'Create New Tour' }}
       </div>
       <button class="close-btn" (click)="close.emit()">×</button>
     </div>
@@ -67,10 +68,10 @@
           <label class="label-text">Transport Type *</label>
           <select class="form-control" [(ngModel)]="formData.transportType">
             <option value="">Select type...</option>
-            <option value="bike">🚴 Bike</option>
-            <option value="hike">🥾 Hike</option>
-            <option value="run">🏃 Run</option>
-            <option value="vacation">✈️ Vacation</option>
+            <option value="bike">Bike</option>
+            <option value="hike">Hike</option>
+            <option value="run">Run</option>
+            <option value="vacation">Vacation</option>
           </select>
           @if (fieldErrors['transportType']) {
             <span class="field-error">
@@ -105,8 +106,10 @@
           <button class="btn btn-ghost btn-sm" (click)="fetchRoute()" [disabled]="fetchingRoute()">
             @if (fetchingRoute()) {
               <span class="spinner" style="width: 12px; height: 12px"></span>
+            } @else {
+              <lucide-icon name="map" [size]="12" style="margin-right:4px;vertical-align:middle"></lucide-icon>
             }
-            🗺️ {{ fetchingRoute() ? 'Fetching...' : 'Fetch Route' }}
+            {{ fetchingRoute() ? 'Fetching...' : 'Fetch Route' }}
           </button>
         </div>
       </div>
@@ -114,7 +117,8 @@
       <!-- Route Success Message -->
       @if (routeFetched()) {
         <div class="alert alert-success">
-          ✅ Route fetched: {{ formData.distance }} km, {{ formData.estimatedTime }} min
+          <lucide-icon name="check" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
+          Route fetched: {{ formData.distance }} km, {{ formData.estimatedTime }} min
         </div>
       }
 
@@ -160,7 +164,7 @@
         <div class="image-upload">
           @if (!formData.image) {
             <div class="upload-placeholder" (click)="fileInput.click()">
-              <div class="upload-icon">📸</div>
+              <div class="upload-icon"><lucide-icon name="camera" [size]="32"></lucide-icon></div>
               <div class="upload-text">Click to upload image</div>
             </div>
           } @else {
@@ -183,7 +187,8 @@
 
       <!-- Info Box -->
       <div class="info-box">
-        ℹ️ Enter locations as place names. Click "Fetch Route" to calculate distance and time automatically.
+        <lucide-icon name="info" [size]="14" style="margin-right:4px;vertical-align:middle"></lucide-icon>
+        Enter locations as place names. Click "Fetch Route" to calculate distance and time automatically.
       </div>
     </div>
 

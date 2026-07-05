@@ -10,21 +10,19 @@
 
       <div class="login-features">
         <div class="feature-item">
-          <div class="feature-icon">+</div>
-          <p>Plan & Organize Tours</p>
+          <div class="feature-icon"><lucide-icon name="map-pin" [size]="18"></lucide-icon></div>
+          <p>Plan &amp; Organize Tours</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">+</div>
+          <div class="feature-icon"><lucide-icon name="route" [size]="18"></lucide-icon></div>
           <p>Manage Itineraries</p>
         </div>
-
       </div>
     </div>
 
     <div class="login-right">
       <div class="login-card">
         <h2 class="login-card-title">Sign In</h2>
-
 
         <form class="login-form" (ngSubmit)="onLogin()" novalidate>
           <div class="form-group">
@@ -39,7 +37,6 @@
 
           <button type="submit" class="btn-login">Sign In</button>
         </form>
-
 
         @if (message) {
           <div class="message-box" [class.error]="message.includes('Invalid')">

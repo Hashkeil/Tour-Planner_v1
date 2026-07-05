@@ -1,17 +1,18 @@
 @import './app/globals.css';
 
 * {
-  font-family: 'Raleway', 'Open Sans', sans-serif;
+  font-family: var(--font-body);
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Raleway', 'Open Sans', sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 1) 100%);
-  color: #1a1a1a;
+  background: var(--bg-body);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 /* Scrollbar */
@@ -21,14 +22,14 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(88, 166, 255, 0.05);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(88, 166, 255, 0.3);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(88, 166, 255, 0.5);
+  background: var(--scrollbar-thumb-hover);
 }

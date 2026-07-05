@@ -14,14 +14,14 @@
   font-size: 28px;
   font-weight: 800;
   margin: 0 0 8px 0;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
   font-family: 'Syne', sans-serif;
 }
 
 .page-subtitle {
   margin: 0;
   font-size: 14px;
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--muted);
 }
 
 /* Settings Grid */
@@ -34,8 +34,8 @@
 
 /* Card */
 .card {
-  background: white;
-  border: 1px solid rgba(88, 166, 255, 0.15);
+  background: var(--card);
+  border: 1px solid rgba(0, 121, 140, 0.15);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -43,14 +43,14 @@
 
 .card-header {
   padding: 20px;
-  border-bottom: 1px solid rgba(88, 166, 255, 0.1);
-  background: linear-gradient(90deg, rgba(88, 166, 255, 0.04) 0%, rgba(63, 185, 80, 0.04) 100%);
+  border-bottom: 1px solid rgba(0, 121, 140, 0.1);
+  background: linear-gradient(90deg, rgba(0, 121, 140, 0.04) 0%, rgba(0, 121, 140, 0.04) 100%);
 }
 
 .card-title {
   font-size: 16px;
   font-weight: 700;
-  margin: 0;color: var(--text, #1a1a1a);
+  margin: 0;color: var(--text);
   font-family: 'Syne', sans-serif;
 }
 
@@ -63,8 +63,8 @@
 
 .card-footer {
   padding: 16px 20px;
-  border-top: 1px solid rgba(88, 166, 255, 0.1);
-  background: rgba(88, 166, 255, 0.02);
+  border-top: 1px solid rgba(0, 121, 140, 0.1);
+  background: rgba(0, 121, 140, 0.02);
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -86,28 +86,28 @@
 .label-text {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
 }
 
 .form-control {
   padding: 10px 12px;
-  border: 1px solid rgba(88, 166, 255, 0.2);
+  border: 1px solid rgba(0, 121, 140, 0.2);
   border-radius: 6px;
   font-size: 13px;
   font-family: inherit;
-  background: white;
-  color: var(--text, #1a1a1a);
+  background: var(--input-bg);
+  color: var(--text);
   transition: all 0.2s ease;
 }
 
 .form-control:hover {
-  border-color: rgba(88, 166, 255, 0.4);
+  border-color: rgba(0, 121, 140, 0.4);
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: #00798c;
+  box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
 }
 
 /* Toggle */
@@ -123,12 +123,12 @@
   cursor: pointer;
   width: 18px;
   height: 18px;
-  accent-color: #58a6ff;
+  accent-color: #00798c;
 }
 
 .toggle-text {
   font-size: 13px;
-  color: var(--text, #1a1a1a);
+  color: var(--text);
 }
 
 /* Buttons */
@@ -149,12 +149,12 @@
 }
 
 .btn-primary {
-  background: #58a6ff;
+  background: #00798c;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #3d8ff0;
+  background: #003d5b;
 }
 
 /* Alerts */
@@ -181,15 +181,15 @@
 }
 
 .alert-success {
-  background: rgba(63, 185, 80, 0.15);
-  border-color: rgba(63, 185, 80, 0.3);
+  background: rgba(0, 121, 140, 0.15);
+  border-color: rgba(0, 121, 140, 0.3);
   color: #238636;
 }
 
 .alert-danger {
-  background: rgba(247, 129, 102, 0.15);
-  border-color: rgba(247, 129, 102, 0.3);
-  color: #f78166;
+  background: rgba(209, 73, 91, 0.15);
+  border-color: rgba(209, 73, 91, 0.3);
+  color: #d1495b;
 }
 
 /* Responsive */
