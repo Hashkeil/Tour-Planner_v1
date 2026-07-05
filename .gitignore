@@ -33,8 +33,5 @@ Thumbs.db
 logs/
 *.log
 
-# Claude Code internal
-.claude/
 
-# Local presentation notes — never push
-PRAESENTATION.md
+
