@@ -45,6 +45,7 @@ public class TourEntity {
     @Column(columnDefinition = "TEXT")
     private String routeGeometry;
 
+    @Column(columnDefinition = "TEXT")
     private String imagePath;
 
     private LocalDateTime createdAt;

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class RouteService {
@@ -18,6 +19,7 @@ public class RouteService {
     private String orsApiKey;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public RouteInfoDto getRoute(String from, String to, String type) {
         try {
@@ -28,12 +30,17 @@ public class RouteService {
                 default        -> "driving-car";
             };
 
-            String url = orsBaseUrl + "/v2/directions/" + profile
-                    + "?api_key=" + orsApiKey
-                    + "&start=" + from
-                    + "&end=" + to;
+            String fromCoords = geocode(from);
+            String toCoords   = geocode(to);
 
-            RestTemplate restTemplate = new RestTemplate();
+            String url = UriComponentsBuilder
+                    .fromUriString(orsBaseUrl + "/v2/directions/" + profile)
+                    .queryParam("api_key", orsApiKey)
+                    .queryParam("start", fromCoords)
+                    .queryParam("end", toCoords)
+                    .build()
+                    .toUriString();
+
             String response = restTemplate.getForObject(url, String.class);
 
             JsonNode root     = objectMapper.readTree(response);
@@ -45,8 +52,32 @@ public class RouteService {
             int    durationMin = (int) (summary.path("duration").asDouble() / 60.0);
 
             return new RouteInfoDto(distanceKm, durationMin, geometry);
+        } catch (RouteServiceException e) {
+            throw e;
         } catch (Exception e) {
             throw new RouteServiceException("Failed to fetch route: " + e.getMessage(), e);
+        }
+    }
+
+    private String geocode(String place) {
+        try {
+            String url = UriComponentsBuilder
+                    .fromUriString(orsBaseUrl + "/geocode/search")
+                    .queryParam("api_key", orsApiKey)
+                    .queryParam("text", place)
+                    .queryParam("size", 1)
+                    .build()
+                    .toUriString();
+
+            String response = restTemplate.getForObject(url, String.class);
+            JsonNode root = objectMapper.readTree(response);
+            JsonNode coords = root.path("features").get(0).path("geometry").path("coordinates");
+
+            double lon = coords.get(0).asDouble();
+            double lat = coords.get(1).asDouble();
+            return lon + "," + lat;
+        } catch (Exception e) {
+            throw new RouteServiceException("Could not geocode location: " + place, e);
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.tourplanner.backend.presentation.exception;
 
 import com.tourplanner.backend.bl.exception.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(TourNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleTourNotFound(TourNotFoundException ex) {
@@ -40,7 +45,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RouteServiceException.class)
     public ResponseEntity<Map<String, String>> handleRouteError(RouteServiceException ex) {
+        log.error("Route service error: {}", ex.getMessage(), ex.getCause());
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("error", "A record with these details already exists."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

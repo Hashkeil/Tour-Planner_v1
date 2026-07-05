@@ -9,6 +9,8 @@ import com.tourplanner.backend.dal.entity.TourLogEntity;
 import com.tourplanner.backend.dal.repository.TourLogRepository;
 import com.tourplanner.backend.dal.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,14 +22,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TourLogService {
 
+    private static final Logger log = LoggerFactory.getLogger(TourLogService.class);
+
     private final TourLogRepository tourLogRepository;
     private final TourRepository tourRepository;
 
     public List<TourLogDto> getLogsForTour(Long tourId, Long userId) {
+        assertTourOwnedByUser(tourId, userId);
         return tourLogRepository.findByTourId(tourId).stream().map(this::toDto).toList();
     }
 
     public Map<String, Object> getStats(Long tourId, Long userId) {
+        assertTourOwnedByUser(tourId, userId);
         Map<String, Object> stats = new HashMap<>();
         stats.put("count",       tourLogRepository.countByTourId(tourId));
         stats.put("avgRating",   tourLogRepository.getAverageRatingByTourId(tourId));
@@ -35,7 +41,14 @@ public class TourLogService {
         return stats;
     }
 
+    private void assertTourOwnedByUser(Long tourId, Long userId) {
+        if (tourRepository.findByIdAndUserId(tourId, userId).isEmpty()) {
+            throw new TourNotFoundException(tourId);
+        }
+    }
+
     public TourLogDto createLog(TourLogCreateDto dto, Long userId) {
+        log.info("Creating log for tour {} by user {}", dto.tourId(), userId);
         var tour = tourRepository.findByIdAndUserId(dto.tourId(), userId)
                 .orElseThrow(() -> new TourNotFoundException(dto.tourId()));
         TourLogEntity log = TourLogEntity.builder()
@@ -66,9 +79,10 @@ public class TourLogService {
     }
 
     public void deleteLog(Long id, Long userId) {
-        TourLogEntity log = tourLogRepository.findByIdAndTourUserId(id, userId)
+        log.info("Deleting log {} for user {}", id, userId);
+        TourLogEntity logEntity = tourLogRepository.findByIdAndTourUserId(id, userId)
                 .orElseThrow(() -> new TourLogNotFoundException(id));
-        tourLogRepository.delete(log);
+        tourLogRepository.delete(logEntity);
     }
 
     private TourLogDto toDto(TourLogEntity l) {

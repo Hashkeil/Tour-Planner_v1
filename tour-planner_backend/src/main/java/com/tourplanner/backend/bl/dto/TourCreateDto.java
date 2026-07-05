@@ -10,5 +10,6 @@ public record TourCreateDto(
         @NotBlank String transportType,
         Double distance,
         Integer estimatedTime,
-        String routeGeometry
+        String routeGeometry,
+        String imagePath
 ) {}
